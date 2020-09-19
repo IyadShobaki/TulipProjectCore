@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="4.0.130-alpha" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TulipWpfUI.Library\TulipWpfUI.Library.csproj" />
+  </ItemGroup>
+ <ItemGroup>
+    <Resource Include="Images\mensimpleshirt.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\menbluejeans.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\menshort.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mennavy.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\menblazer.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mendenimjeans.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenwoven.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenmidi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenmaxi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenlettuce.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womensuit.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenskinny.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo.jpg" />
+  </ItemGroup>
+</Project>

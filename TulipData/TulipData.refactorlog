@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="3ba1e71f-08dd-408a-bb01-95a627d3212a" ChangeDateTime="09/01/2020 23:49:12">
+    <Property Name="ElementName" Value="[dbo].[Product].[IsTaxable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Product]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UpdatedDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6562699a-2427-4af4-948d-f22e1dd3219d" ChangeDateTime="09/06/2020 23:26:52">
+    <Property Name="ElementName" Value="[dbo].[Product].[Men]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Product]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Sex" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="056ac25e-b690-4b1f-ae33-2688ac8f2f24" ChangeDateTime="09/11/2020 02:20:46">
+    <Property Name="ElementName" Value="[dbo].[Order].[Subtotal]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Order]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SubTotal" />
+  </Operation>
+</Operations>

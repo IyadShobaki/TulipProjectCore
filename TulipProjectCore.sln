@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipWpfUI.Library", "TulipWpfUI.Library\TulipWpfUI.Library.csproj", "{D70010BA-DCB7-4574-82B9-631FA0F4EA0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipWpfUI", "TulipWpfUI\TulipWpfUI.csproj", "{DDB9D295-0E0A-4ABC-9BF2-130070966796}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipDataManager.Library", "TulipDataManager.Library\TulipDataManager.Library.csproj", "{E85CEDF8-5830-4BFE-B71F-FCC18667F351}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipDataManager", "TulipDataManager\TulipDataManager.csproj", "{057C878B-C1E3-40DB-B41D-3B9E83E5A0BE}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TulipData", "TulipData\TulipData.sqlproj", "{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D70010BA-DCB7-4574-82B9-631FA0F4EA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70010BA-DCB7-4574-82B9-631FA0F4EA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70010BA-DCB7-4574-82B9-631FA0F4EA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70010BA-DCB7-4574-82B9-631FA0F4EA0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E85CEDF8-5830-4BFE-B71F-FCC18667F351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85CEDF8-5830-4BFE-B71F-FCC18667F351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85CEDF8-5830-4BFE-B71F-FCC18667F351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85CEDF8-5830-4BFE-B71F-FCC18667F351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057C878B-C1E3-40DB-B41D-3B9E83E5A0BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057C878B-C1E3-40DB-B41D-3B9E83E5A0BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057C878B-C1E3-40DB-B41D-3B9E83E5A0BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057C878B-C1E3-40DB-B41D-3B9E83E5A0BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E10E43E5-B94C-420D-8D67-4DF4CDF89709}
+	EndGlobalSection
+EndGlobal
