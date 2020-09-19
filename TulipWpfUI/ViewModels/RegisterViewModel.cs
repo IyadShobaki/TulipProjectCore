@@ -143,9 +143,16 @@ namespace TulipWpfUI.ViewModels
             settings.ResizeMode = ResizeMode.NoResize;
             try
             {
-               
+
+                RegisterModel registerModel = new RegisterModel
+                {
+                    Email = Email,
+                    Password = Password,
+                    ConfirmPassword = ConfirmPassword
+                };
               
-                string createSuccess = await _apiHelper.RegisterUser(Email, Password, ConfirmPassword);
+                //string createSuccess = await _apiHelper.RegisterUser(Email, Password, ConfirmPassword);
+                string createSuccess = await _apiHelper.RegisterUser(registerModel);
 
                 if (createSuccess == "success")
                 {

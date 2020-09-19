@@ -13,7 +13,8 @@ namespace TulipWpfUI.Library.Api
         Task GetLoggendInUserInfo(string token);
         Task<List<string>> GetUserId(string token);
         Task PostUserInfo(UserModel user);
-        Task<string> RegisterUser(string email, string password, string confirmPassword);
+        //Task<string> RegisterUser(string email, string password, string confirmPassword);
+        Task<string> RegisterUser(RegisterModel registerModel);
         void LogOffUser();
     }
 }
