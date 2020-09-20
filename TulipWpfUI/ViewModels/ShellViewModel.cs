@@ -17,19 +17,16 @@ namespace TulipWpfUI.ViewModels
     {
 
         private IEventAggregator _events;
-        private ProductsViewModel _productsVM;
         private readonly ILoggedInUserModel _user;
         private readonly IAPIHelper _apiHelper;
 
         public ShellViewModel(IEventAggregator events,
-            ProductsViewModel productsVM, ILoggedInUserModel user, IAPIHelper apiHelper)
+                              ILoggedInUserModel user,
+                              IAPIHelper apiHelper)
         {
-
-
             _events = events;
             _events.SubscribeOnPublishedThread(this);
 
-            _productsVM = productsVM;
             _user = user;
             _apiHelper = apiHelper;
             ActivateItemAsync(IoC.Get<LoginViewModel>());
@@ -37,7 +34,7 @@ namespace TulipWpfUI.ViewModels
 
         public async Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
         {
-            await ActivateItemAsync(_productsVM, cancellationToken);
+            await ActivateItemAsync(IoC.Get<ProductsViewModel>(), cancellationToken);
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
 
