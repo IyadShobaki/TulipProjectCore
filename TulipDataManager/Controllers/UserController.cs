@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using TulipDataManager.Data;
 using TulipDataManager.Library.DataAccess;
@@ -25,16 +26,19 @@ namespace TulipDataManager.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserData _userData;
+        private readonly ILogger<UserController> _logger;
 
         public UserController(ApplicationDbContext context,
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            IUserData userData)
+            IUserData userData,
+            ILogger<UserController> logger)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
             _userData = userData;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -98,7 +102,16 @@ namespace TulipDataManager.Controllers
         [Route("AddRole")]
         public async Task AddARole(UserRolePairModel pairing)
         {
+            // Log the information about who give who a role
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var user = await _userManager.FindByIdAsync(pairing.UserId);
+            // Log it before even if its crashed before
+            // its done, to know that someone try to do it
+            // Do not use string interpolation with logging
+            _logger.LogInformation("Admin {Admin} added user {User} to role {Role}",
+                loggedInUserId, user.Id, pairing.RoleName);
+
             await _userManager.AddToRoleAsync(user, pairing.RoleName);
 
         }
@@ -108,7 +121,16 @@ namespace TulipDataManager.Controllers
         [Route("RemoveRole")]
         public async Task RemoveARole(UserRolePairModel pairing)
         {
+            // Log the information about who give who a role
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var user = await _userManager.FindByIdAsync(pairing.UserId);
+            // Log it before even if its crashed before
+            // its done, to know that someone try to do it
+            // Do not use string interpolation with logging
+            _logger.LogInformation("Admin {Admin} removed user {User} from role {Role}",
+                loggedInUserId, user.Id, pairing.RoleName);
+
             await _userManager.RemoveFromRoleAsync(user, pairing.RoleName);
 
         }

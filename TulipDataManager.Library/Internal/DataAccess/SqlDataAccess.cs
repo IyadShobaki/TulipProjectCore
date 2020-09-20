@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,9 +19,13 @@ namespace TulipDataManager.Library.Internal.DataAccess
         private IDbConnection _connection;
         private IDbTransaction _transaction;
         private readonly IConfiguration _config; // Is built-in in .NET CORE
-        public SqlDataAccess(IConfiguration config)
+        private readonly ILogger<SqlDataAccess> _logger;
+
+        public SqlDataAccess(IConfiguration config,
+            ILogger<SqlDataAccess> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         public string GetConnectionString(string name)
@@ -149,9 +154,9 @@ namespace TulipDataManager.Library.Internal.DataAccess
                 {
                     CommitTransaction();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //TODO - Log this issue
+                    _logger.LogError(ex, "Commit transaction failed in the dispose method.");
                 }
             }
 
