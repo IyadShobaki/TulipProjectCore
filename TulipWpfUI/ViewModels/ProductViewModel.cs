@@ -31,11 +31,11 @@ namespace TulipWpfUI.ViewModels
 
         private int _itemQuantity = 1;
 
-        public int ItemQuantity 
+        public int ItemQuantity
         {
             get { return _itemQuantity; }
-            set 
-            { 
+            set
+            {
                 _itemQuantity = value;
                 NotifyOfPropertyChange(() => ItemQuantity);
                 NotifyOfPropertyChange(() => CanAddToCart);
@@ -87,7 +87,7 @@ namespace TulipWpfUI.ViewModels
 
         private decimal CalculateTax()
         {
-            
+
             decimal taxRate = _configHelper.GetTaxRate() / 100;
 
             decimal taxAmount = RetailPrice * ItemQuantity * taxRate;
@@ -99,7 +99,6 @@ namespace TulipWpfUI.ViewModels
         {
             get
             {
-                //decimal total = CalculateSubTotal() + CalculateTax();
                 decimal total = SubTotal + Tax;
 
                 return total;
@@ -115,7 +114,7 @@ namespace TulipWpfUI.ViewModels
         public bool IsAdded
         {
             get { return _isAdded; }
-            set 
+            set
             {
                 _isAdded = value;
                 NotifyOfPropertyChange(() => IsAdded);
@@ -125,12 +124,12 @@ namespace TulipWpfUI.ViewModels
         }
 
         public bool CanAddToCart
-        {          
+        {
             get
             {
 
                 bool output = false;
-               
+
                 if (ItemQuantity > 0 && ItemQuantity <= QuantityInStock && IsAdded)
                 {
                     output = true;

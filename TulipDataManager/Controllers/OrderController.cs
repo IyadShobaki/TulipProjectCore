@@ -22,6 +22,7 @@ namespace TulipDataManager.Controllers
         {
             _config = config;
         }
+
         [HttpPost]
         public int Post(OrderModel order)
         {
@@ -30,14 +31,6 @@ namespace TulipDataManager.Controllers
             return data.InsertOrder(order);
 
         }
-
-        //[HttpPost]
-        //[Route("api/OrderDetail")]
-        //public void Post(OrderDetailModel orderDetail)
-        //{
-        //    OrderData data = new OrderData();
-        //    data.InsertOrderDetail(orderDetail);
-        //}
 
         [HttpPost]
         [Route("OrderDetails")]
@@ -59,7 +52,6 @@ namespace TulipDataManager.Controllers
             data.DeleteOrderById(id);
 
         }
-
 
         [Authorize(Roles = "Admin")]
         [HttpGet]

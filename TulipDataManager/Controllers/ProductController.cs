@@ -28,12 +28,10 @@ namespace TulipDataManager.Controllers
         {
             ProductData data = new ProductData(_config);
             return data.GetProducts();
-
         }
 
         [HttpPost]
         [Route("UpdateProductQuantity")]
-        //public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
         public void PutProduct(int[] product)
         {
             int productId = product[0];
@@ -47,39 +45,15 @@ namespace TulipDataManager.Controllers
         [HttpPost]
         public void Post(List<object> paramsList)
         {
-
             string productString = paramsList[0].ToString();
             string inventoryString = paramsList[1].ToString();
-            //JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-            //var product = (ProductModel)javaScriptSerializer.Deserialize(productString, typeof(ProductModel));
-            //var inventory = (InventoryModel)javaScriptSerializer.Deserialize(inventoryString, typeof(InventoryModel));
 
-            var product = JsonConvert.DeserializeObject<ProductModel>(productString); // Core
+            var product = JsonConvert.DeserializeObject<ProductModel>(productString);
             var inventory = JsonConvert.DeserializeObject<InventoryModel>(inventoryString);
-
-
 
             ProductData data = new ProductData(_config);
             data.InsertProductInventory(product, inventory);
 
         }
-        //[Authorize(Roles = "Admin")]
-        //[HttpPost]
-        //public int Post(ProductModel product)
-        //{
-
-        //    ProductData data = new ProductData();
-        //    return data.InsertProduct(product);
-
-        //}
-
-        //[Authorize(Roles = "Admin")]
-        //[HttpPost]
-        //[Route("api/Inventory")]
-        //public void PostInventory(InventoryModel inventory)
-        //{
-        //    ProductData data = new ProductData();
-        //    data.InsertInventory(inventory);
-        //}
     }
 }

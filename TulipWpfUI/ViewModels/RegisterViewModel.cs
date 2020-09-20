@@ -19,7 +19,7 @@ namespace TulipWpfUI.ViewModels
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
 
-        public RegisterViewModel(IAPIHelper apiHelper,IEventAggregator events, 
+        public RegisterViewModel(IAPIHelper apiHelper, IEventAggregator events,
             StatusInfoViewModel status, IWindowManager window)
         {
             _apiHelper = apiHelper;
@@ -34,7 +34,7 @@ namespace TulipWpfUI.ViewModels
         {
             get { return _firstName; }
             set
-            { 
+            {
                 _firstName = value;
                 NotifyOfPropertyChange(() => FirstName);
                 NotifyOfPropertyChange(() => CanSubmit);
@@ -60,7 +60,7 @@ namespace TulipWpfUI.ViewModels
         public string Email
         {
             get { return _email; }
-            set 
+            set
             {
                 _email = value;
                 NotifyOfPropertyChange(() => Email);
@@ -150,7 +150,7 @@ namespace TulipWpfUI.ViewModels
                     Password = Password,
                     ConfirmPassword = ConfirmPassword
                 };
-              
+
                 //string createSuccess = await _apiHelper.RegisterUser(Email, Password, ConfirmPassword);
                 string createSuccess = await _apiHelper.RegisterUser(registerModel);
 
@@ -167,20 +167,17 @@ namespace TulipWpfUI.ViewModels
 
                     await _apiHelper.PostUserInfo(user);
 
-                    
+
                     settings.Title = "System Message";
                     _status.UpdateMessage("Account Created Successfully", $"{FirstName} Thank you for joining us!");
                     await _window.ShowDialogAsync(_status, null, settings);
 
                     await _events.PublishOnUIThreadAsync(new LogInEvent());
                 }
-                
-                
-                //MessageBox.Show($"New Account has been created successfully");
+
             }
             catch (Exception ex)
             {
-                //ErrorMessage = ex.Message;
                 settings.Title = "System Error";
                 _status.UpdateMessage("Fatal Exception", ex.Message);
                 _window.ShowDialogAsync(_status, null, settings);

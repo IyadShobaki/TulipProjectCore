@@ -47,7 +47,7 @@ namespace TulipWpfUI.ViewModels
 
         public bool IsErrorVisible
         {
-            get 
+            get
             {
                 bool output = false;
                 if (ErrorMessage?.Length > 0)
@@ -56,18 +56,18 @@ namespace TulipWpfUI.ViewModels
                 }
                 return output;
             }
-            
+
         }
 
         public string ErrorMessage
         {
             get { return _errorMessage; }
             set
-            {              
+            {
                 _errorMessage = value;
                 NotifyOfPropertyChange(() => IsErrorVisible);
                 NotifyOfPropertyChange(() => ErrorMessage);
-                        
+
             }
         }
 

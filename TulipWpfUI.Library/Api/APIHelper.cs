@@ -93,15 +93,9 @@ namespace TulipWpfUI.Library.Api
                 }
             }
         }
-      
-        public async Task<string> RegisterUser(RegisterModel registerModel)//string email, string password, string confirmPassword)
+
+        public async Task<string> RegisterUser(RegisterModel registerModel)
         {
-            //var data = new FormUrlEncodedContent(new[]
-            //{
-            //    new KeyValuePair<string, string>("email", email),
-            //    new KeyValuePair<string, string>("password", password),
-            //    new KeyValuePair<string, string>("confirmPassword", confirmPassword)
-            //});
 
             using (HttpResponseMessage response = await _apiClient.PostAsJsonAsync("/api/account/register", registerModel))
             {
@@ -138,9 +132,9 @@ namespace TulipWpfUI.Library.Api
             {
                 if (response.IsSuccessStatusCode)
                 {
-                   
+
                     var result = await response.Content.ReadAsAsync<List<string>>();
-                    
+
                     return result;
                 }
                 else
@@ -150,7 +144,7 @@ namespace TulipWpfUI.Library.Api
             }
         }
 
-        
+
 
     }
 }

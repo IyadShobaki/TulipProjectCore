@@ -13,6 +13,6 @@
                     Content="Close" MaxWidth="130"
                     Foreground="White" Margin="20" 
                      Padding="10"/>
-        </StackPanel>    
+        </StackPanel>
     </Grid>
 </UserControl>

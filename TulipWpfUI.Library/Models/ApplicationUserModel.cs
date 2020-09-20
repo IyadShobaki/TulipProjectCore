@@ -18,7 +18,7 @@ namespace TulipWpfUI.Library.Models
 
         public string RoleList
         {
-            get 
+            get
             {
                 if (Roles.Count > 0)
                 {

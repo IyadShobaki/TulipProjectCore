@@ -27,22 +27,9 @@ namespace TulipWpfUI
                 PasswordBoxHelper.BoundPasswordProperty, "Password", "PasswordChanged");
         }
 
-        //private IMapper ConfigureAutomapper()
-        //{
-            // Configure Automapper
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<>();
-            //});
-            //var output = config.CreateMapper();
-            //return output;
-        //}
 
         protected override void Configure()
         {
-
-            //_container.Instance(ConfigureAutomapper());
-
 
             _container.Instance(_container)
                 .PerRequest<IProductEndPoint, ProductEndPoint>()
@@ -56,7 +43,7 @@ namespace TulipWpfUI
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IAPIHelper, APIHelper>();
-            
+
 
 
             // Use reflection to get all models inside ViewModels folder

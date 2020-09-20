@@ -178,7 +178,7 @@ namespace TulipWpfUI.ViewModels
             dynamic settings = new ExpandoObject();
             settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
             settings.ResizeMode = ResizeMode.NoResize;
-           
+
 
             try
             {
@@ -209,12 +209,6 @@ namespace TulipWpfUI.ViewModels
 
                     foreach (var item in Cart)
                     {
-                        // change the following and use dynamic parameters
-                        // UpdatedQtyProductModel updatedQtyProduct = new UpdatedQtyProductModel();
-                        // updatedQtyProduct.Id = item.Id;
-                        // updatedQtyProduct.QuantityInStock = item.QuantityInStock - item.ItemQuantity;
-
-                        //await _productEndPoint.UpdateProductQuantity(updatedQtyProduct);
                         await _productEndPoint.UpdateProductQuantity(item.Id, (item.QuantityInStock - item.ItemQuantity));
                     }
 
@@ -222,7 +216,6 @@ namespace TulipWpfUI.ViewModels
                     _status.UpdateMessage("Thank you for shopping with us!", $"{_loggedInUserModel.FirstName}, your order Submitted Successfully");
                     await _window.ShowDialogAsync(_status, null, settings);
 
-                    //MessageBox.Show($@"Your order is in the way{Environment.NewLine}{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
                     await ResetCart();
                 }
                 else
@@ -231,7 +224,6 @@ namespace TulipWpfUI.ViewModels
                     settings.Title = "System Error";
                     _status.UpdateMessage("Error!!!", "Something went wrong! Please try again later");
                     await _window.ShowDialogAsync(_status, null, settings);
-                    //MessageBox.Show("Something went wrong! Please try again later");
                 }
                 // For testing
                 // Comment the following line inside OrderDetail table and publish
@@ -250,14 +242,14 @@ namespace TulipWpfUI.ViewModels
             await LoadProducts();
             Cart = new BindingList<ProductViewModel>();
             NotifyOfPropertyChange(() => Cart);
-         
+
 
         }
 
         public string LoggedInUser
         {
             get
-            {         
+            {
                 return _loggedInUserModel.FirstName;
             }
         }
@@ -269,7 +261,7 @@ namespace TulipWpfUI.ViewModels
             _loggedInUserModel.Role = userRole[1];
             NotifyOfPropertyChange(() => IsAdmin);
         }
-        
+
 
         public bool IsAdmin
         {
@@ -282,7 +274,7 @@ namespace TulipWpfUI.ViewModels
                     output = true;
                 }
                 return output;
-                //return true;
+                //return true; // For testing
 
             }
 

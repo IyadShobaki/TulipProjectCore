@@ -27,7 +27,7 @@
                 </Rectangle.Effect>
             </Rectangle>
         </Grid>
-        
+
         <StackPanel Width="500" Height="500" 
                     VerticalAlignment="Bottom" Margin="0 0 0 120">
             <TextBlock Text="Registration" HorizontalAlignment="Center"
@@ -63,6 +63,6 @@
                     Foreground="White" Margin="20 0 0 0"/>
             </StackPanel>
         </StackPanel>
-       
+
     </Grid>
 </UserControl>

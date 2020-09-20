@@ -14,6 +14,9 @@ namespace TulipDataManager.Library.Internal.DataAccess
 {
     internal class SqlDataAccess : IDisposable
     {
+        private bool isClosed = false;
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
         private readonly IConfiguration _config; // Is built-in in .NET CORE
         public SqlDataAccess(IConfiguration config)
         {
@@ -54,30 +57,6 @@ namespace TulipDataManager.Library.Internal.DataAccess
             }
         }
 
-        //public int CreateProduct(string storedProcedure, ProductModel product, string connectionStringName)
-        //{
-        //    string connectionString = GetConnectionString(connectionStringName);
-
-        //    using (IDbConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        var p = new DynamicParameters();
-        //        p.Add("@ProductName", product.ProductName);
-        //        p.Add("@Description", product.Description);
-        //        p.Add("@ProductImage", product.ProductImage);
-        //        p.Add("@RetailPrice", product.RetailPrice);
-        //        p.Add("@QuantityInStock", product.QuantityInStock);
-        //        p.Add("@IsTaxable", product.IsTaxable);
-        //        p.Add("@Sex", product.Sex);
-        //        p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-        //        connection.Execute(storedProcedure,
-        //                p, commandType: CommandType.StoredProcedure);
-
-        //        int newId = p.Get<int>("@id");
-        //        return newId;
-        //    }
-        //}
-
         public int CreateOrder(string storedProcedure, OrderModel order, string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
@@ -101,29 +80,24 @@ namespace TulipDataManager.Library.Internal.DataAccess
 
         public int CreateProductTransaction(string storedProcedure, ProductModel product)
         {
-            
-                var p = new DynamicParameters();
-                p.Add("@ProductName", product.ProductName);
-                p.Add("@Description", product.Description);
-                p.Add("@ProductImage", product.ProductImage);
-                p.Add("@RetailPrice", product.RetailPrice);
-                p.Add("@QuantityInStock", product.QuantityInStock);
-                p.Add("@IsTaxable", product.IsTaxable);
-                p.Add("@Sex", product.Sex);
-                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var p = new DynamicParameters();
+            p.Add("@ProductName", product.ProductName);
+            p.Add("@Description", product.Description);
+            p.Add("@ProductImage", product.ProductImage);
+            p.Add("@RetailPrice", product.RetailPrice);
+            p.Add("@QuantityInStock", product.QuantityInStock);
+            p.Add("@IsTaxable", product.IsTaxable);
+            p.Add("@Sex", product.Sex);
+            p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                _connection.Execute(storedProcedure,
-                        p, commandType: CommandType.StoredProcedure, transaction: _transaction);
+            _connection.Execute(storedProcedure,
+                    p, commandType: CommandType.StoredProcedure, transaction: _transaction);
 
-                int newId = p.Get<int>("@id");
-                return newId;
-            
+            int newId = p.Get<int>("@id");
+            return newId;
         }
 
 
-
-        private IDbConnection _connection;
-        private IDbTransaction _transaction;
         public void StartTransaction(string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
@@ -133,9 +107,7 @@ namespace TulipDataManager.Library.Internal.DataAccess
             _transaction = _connection.BeginTransaction();
 
             isClosed = false;
-
         }
-
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
         {
@@ -146,17 +118,12 @@ namespace TulipDataManager.Library.Internal.DataAccess
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
         {
-
             List<T> rows = _connection.Query<T>(storedProcedure,
                 parameters, commandType: CommandType.StoredProcedure,
                 transaction: _transaction).ToList();
 
             return rows;
-
         }
-
-        private bool isClosed = false;
-
 
         public void CommitTransaction()
         {

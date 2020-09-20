@@ -15,18 +15,16 @@ namespace TulipWpfUI.ViewModels
         IHandle<LogInEvent>, IHandle<InsertProductsEvent>, IHandle<OrdersReportEvent>,
         IHandle<DisplayInventoryEvent>, IHandle<UserManagementEvent>
     {
-       
+
         private IEventAggregator _events;
         private ProductsViewModel _productsVM;
         private readonly ILoggedInUserModel _user;
         private readonly IAPIHelper _apiHelper;
 
-        //private SimpleContainer _container; using IoC instead from Caliburn.Micro
-
-        public ShellViewModel( IEventAggregator events,
+        public ShellViewModel(IEventAggregator events,
             ProductsViewModel productsVM, ILoggedInUserModel user, IAPIHelper apiHelper)
         {
-    
+
 
             _events = events;
             _events.SubscribeOnPublishedThread(this);
@@ -34,16 +32,8 @@ namespace TulipWpfUI.ViewModels
             _productsVM = productsVM;
             _user = user;
             _apiHelper = apiHelper;
-            //ActivateItem(_container.GetInstance<LoginViewModel>());
-            // Simpler way 
             ActivateItemAsync(IoC.Get<LoginViewModel>());
         }
-
-        //public void Handle(LogOnEvent message)
-        //{
-        //    ActivateItem(_productsVM);
-        //    NotifyOfPropertyChange(() => IsLoggedIn);
-        //}
 
         public async Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
         {
@@ -51,32 +41,15 @@ namespace TulipWpfUI.ViewModels
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
 
-        //public void Handle(RegisterEvent message)
-        //{
-        //    ActivateItem(IoC.Get<RegisterViewModel>());
-        //}
-
         public async Task HandleAsync(RegisterEvent message, CancellationToken cancellationToken)
         {
             await ActivateItemAsync(IoC.Get<RegisterViewModel>(), cancellationToken);
         }
 
-
-        //public void Handle(LogInEvent message)
-        //{
-        //    ActivateItem(IoC.Get<LoginViewModel>());
-        //}
-
         public async Task HandleAsync(LogInEvent message, CancellationToken cancellationToken)
         {
             await ActivateItemAsync(IoC.Get<LoginViewModel>(), cancellationToken);
         }
-
-
-        //public void Handle(InsertProductsEvent message)
-        //{
-        //    ActivateItem(IoC.Get<InsertProductsViewModel>());
-        //}
 
         public async Task HandleAsync(InsertProductsEvent message, CancellationToken cancellationToken)
         {
@@ -96,32 +69,16 @@ namespace TulipWpfUI.ViewModels
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
 
-        ////public void Handle(OrdersReportEvent message)
-        ////{
-        ////    ActivateItem(IoC.Get<OrdersViewModel>());
-        ////}
-
-
         public async Task HandleAsync(OrdersReportEvent message, CancellationToken cancellationToken)
         {
             await ActivateItemAsync(IoC.Get<OrdersViewModel>(), cancellationToken);
         }
 
 
-        //public void Handle(DisplayInventoryEvent message)
-        //{
-        //    ActivateItem(IoC.Get<DisplayInventoryViewModel>());
-        //}
-
         public async Task HandleAsync(DisplayInventoryEvent message, CancellationToken cancellationToken)
         {
             await ActivateItemAsync(IoC.Get<DisplayInventoryViewModel>(), cancellationToken);
         }
-
-        //public void Handle(UserManagementEvent message)
-        //{
-        //    ActivateItem(IoC.Get<UserDisplayViewModel>());
-        //}
 
         public async Task HandleAsync(UserManagementEvent message, CancellationToken cancellationToken)
         {
@@ -142,6 +99,6 @@ namespace TulipWpfUI.ViewModels
 
         }
 
-        
+
     }
 }

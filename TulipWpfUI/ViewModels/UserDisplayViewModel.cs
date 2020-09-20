@@ -255,11 +255,6 @@ namespace TulipWpfUI.ViewModels
             get
             {
                 return !IsAdmin;
-                //if (Users?.Count > 0)
-                //{
-                //    return false;
-                //}
-                //return true;
             }
         }
 

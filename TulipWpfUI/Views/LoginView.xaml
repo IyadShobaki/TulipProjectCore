@@ -17,7 +17,7 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            
+
             <Border VerticalAlignment="Top" Width="230" Height="140" CornerRadius="15" Margin="5">
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="15" Opacity="0.4"
@@ -62,8 +62,8 @@
                     Foreground="White" />
 
         </StackPanel>
-        
+
     </Grid>
 
-   
+
 </UserControl>

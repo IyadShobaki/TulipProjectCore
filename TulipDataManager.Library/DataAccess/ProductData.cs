@@ -28,12 +28,10 @@ namespace TulipDataManager.Library.DataAccess
 
         public void InsertProductInventory(ProductModel product, InventoryModel inventory)
         {
-          
             using (SqlDataAccess sql = new SqlDataAccess(_config))
             {
                 try
                 {
-
                     sql.StartTransaction("TulipData");
                     int newProductId = sql.CreateProductTransaction("dbo.spProduct_Insert", product);
 
@@ -50,24 +48,6 @@ namespace TulipDataManager.Library.DataAccess
             }
         }
 
-        //public int InsertProduct(ProductModel product)
-        //{
-        //    SqlDataAccess sql = new SqlDataAccess();
-        //    int newProductId = sql.CreateProduct("dbo.spProduct_Insert", product, "TulipData");
-
-        //    return newProductId;
-
-        //}
-        //public void InsertInventory(InventoryModel inventory)
-        //{
-        //    SqlDataAccess sql = new SqlDataAccess();
-        //    sql.SaveData("dbo.spInventory_Insert", inventory, "TulipData");
-
-        //}
-
-
-
-        //public void UpdateProductQuantityInStock(UpdatedQtyProductModel updatedQtyProduct)
         public void UpdateProductQuantityInStock(int productId, int newQuantity)
         {
             SqlDataAccess sql = new SqlDataAccess(_config);

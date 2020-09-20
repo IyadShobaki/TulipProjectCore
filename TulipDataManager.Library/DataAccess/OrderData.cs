@@ -24,15 +24,7 @@ namespace TulipDataManager.Library.DataAccess
             int newOrderId = sql.CreateOrder("dbo.spOrder_Insert", order, "TulipData");
 
             return newOrderId;
-
         }
-
-        //public void InsertOrderDetail(OrderDetailModel orderDetail)
-        //{
-        //    SqlDataAccess sql = new SqlDataAccess();
-        //    sql.SaveData("dbo.spOrderDetail_Insert", orderDetail, "TulipData");
-
-        //}
 
 
         public void InsertOrderDetails(List<OrderDetailModel> orderDetailModels)
@@ -41,7 +33,6 @@ namespace TulipDataManager.Library.DataAccess
             {
                 try
                 {
-
                     sql.StartTransaction("TulipData");
 
                     foreach (var orderDetailModel in orderDetailModels)
@@ -63,7 +54,7 @@ namespace TulipDataManager.Library.DataAccess
         public void DeleteOrderById(int orderId)
         {
             SqlDataAccess sql = new SqlDataAccess(_config);
-            sql.SaveData<dynamic>("dbo.spDeleteOrderById", new { Id = orderId } , "TulipData");
+            sql.SaveData<dynamic>("dbo.spDeleteOrderById", new { Id = orderId }, "TulipData");
         }
 
         public List<OrdersReportModel> GetOrdersReport()

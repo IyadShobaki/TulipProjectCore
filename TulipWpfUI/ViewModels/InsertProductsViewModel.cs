@@ -29,7 +29,7 @@ namespace TulipWpfUI.ViewModels
             _window = window;
             _loggedInUser = loggedInUser;
 
-     
+
         }
 
         protected override void OnViewLoaded(object view)
@@ -93,7 +93,7 @@ namespace TulipWpfUI.ViewModels
         public string ProductImage
         {
             get { return _productImage; }
-            set 
+            set
             {
                 _productImage = value;
                 NotifyOfPropertyChange(() => ProductImage);
@@ -106,8 +106,8 @@ namespace TulipWpfUI.ViewModels
         public decimal RetailPrice
         {
             get { return _retailPrice; }
-            set 
-            { 
+            set
+            {
                 _retailPrice = value;
                 NotifyOfPropertyChange(() => RetailPrice);
                 NotifyOfPropertyChange(() => CanSubmit);
@@ -131,8 +131,8 @@ namespace TulipWpfUI.ViewModels
         public bool Sex
         {
             get { return _sex; }
-            set 
-            { 
+            set
+            {
                 _sex = value;
                 NotifyOfPropertyChange(() => Sex);
                 NotifyOfPropertyChange(() => CanSubmit);
@@ -144,8 +144,8 @@ namespace TulipWpfUI.ViewModels
         public decimal PurchasePrice
         {
             get { return _purchasePrice; }
-            set 
-            { 
+            set
+            {
                 _purchasePrice = value;
                 NotifyOfPropertyChange(() => PurchasePrice);
                 NotifyOfPropertyChange(() => CanSubmit);
@@ -157,8 +157,8 @@ namespace TulipWpfUI.ViewModels
         public DateTime PurchaseDate
         {
             get { return _purchaseDate; }
-            set 
-            { 
+            set
+            {
                 _purchaseDate = value;
                 NotifyOfPropertyChange(() => PurchaseDate);
                 NotifyOfPropertyChange(() => CanSubmit);
@@ -170,7 +170,7 @@ namespace TulipWpfUI.ViewModels
         public int TotalQuantity
         {
             get { return _totalQuantity; }
-            set 
+            set
             {
                 _totalQuantity = value;
                 NotifyOfPropertyChange(() => TotalQuantity);
@@ -228,11 +228,11 @@ namespace TulipWpfUI.ViewModels
             dynamic settings = new ExpandoObject();
             settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
             settings.ResizeMode = ResizeMode.NoResize;
-      
+
             try
             {
                 // Use transactions to commit the following to database
-                              
+
                 ProductModel product = new ProductModel();
                 product.ProductName = ProductName;
                 product.Description = Description;
@@ -241,21 +241,18 @@ namespace TulipWpfUI.ViewModels
                 product.QuantityInStock = QuantityInStock;
                 product.Sex = Sex;
 
-                //int productId = await _productEndPoint.PostProductInfo(product);
 
                 InventoryModel inventory = new InventoryModel();
-                //inventory.ProductId = productId;
                 inventory.PurchasePrice = PurchasePrice;
                 inventory.Quantity = TotalQuantity;
                 inventory.PurchaseDate = PurchaseDate;
 
-                //await _productEndPoint.PostInventoryInfo(inventory);
                 if (await _productEndPoint.PostProductInventory(product, inventory))//using transaction
                 {
                     settings.Title = "System Message";
                     _status.UpdateMessage($"{ProductName}", "Product Information Inserted successfully!");
                     await _window.ShowDialogAsync(_status, null, settings);
-                    //MessageBox.Show($"{ProductName} Inserted successfully");
+
                     ResetFields();
                 }
                 else
@@ -263,11 +260,10 @@ namespace TulipWpfUI.ViewModels
                     settings.Title = "System Error";
                     _status.UpdateMessage("Error Inserting Product", "Something went wrong! Please try again later");
                     await _window.ShowDialogAsync(_status, null, settings);
-                    //MessageBox.Show("Something went wrong! Please try again later");
                 }
-               
 
-            
+
+
             }
             catch (Exception ex)
             {

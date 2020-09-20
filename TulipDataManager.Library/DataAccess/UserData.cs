@@ -17,6 +17,7 @@ namespace TulipDataManager.Library.DataAccess
         {
             _config = config;
         }
+
         public List<UserModel> GetUserById(string Id)
         {
             SqlDataAccess sql = new SqlDataAccess(_config);

@@ -32,12 +32,12 @@ namespace TulipWpfUI.ViewModels
         {
 
             base.OnViewLoaded(view);
-            
+
             try
             {
                 await LoadReports();
             }
-             catch (Exception ex) 
+            catch (Exception ex)
             {
                 dynamic settings = new ExpandoObject();
                 settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
@@ -56,7 +56,7 @@ namespace TulipWpfUI.ViewModels
                     await _window.ShowDialogAsync(_status, null, settings);
                     await _events.PublishOnUIThreadAsync(new LogOnEvent());
                 }
-               
+
             }
 
         }
@@ -78,7 +78,7 @@ namespace TulipWpfUI.ViewModels
             get
             {
 
-                if (InventoryReport?.Count > 0 )
+                if (InventoryReport?.Count > 0)
                 {
                     return false;
                 }

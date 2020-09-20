@@ -16,11 +16,11 @@ namespace TulipWpfUI.Library.Models
         public int QuantityInStock { get; set; }
         public decimal RetailPrice { get; set; }
 
-        public string QuantitySold 
+        public string QuantitySold
         {
             get
             {
-                return Math.Abs((Quantity - QuantityInStock)).ToString(); 
+                return Math.Abs((Quantity - QuantityInStock)).ToString();
             }
         }
     }

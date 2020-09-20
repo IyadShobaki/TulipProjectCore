@@ -19,23 +19,7 @@ namespace TulipDataManager.Controllers
         public IEnumerable<string> Get()
         {
             // Using Postman to display the user id
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //RequestContext.Principal.Identity.GetUserId(); //old .NET Framework
-                                                                            //var roles = new Dictionary<string, string>();
-
-            //using (var context = new ApplicationDbContext())
-            //{
-
-            //    roles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
-
-            //}
-
-            //string result = "Not Admin";
-
-            //if (roles.Keys.Contains(userId))
-            //{
-            //    result = "Admin";
-            //}
-
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             string result = "Not Admin";
             //if (RequestContext.Principal.IsInRole("Admin")) //.NET Framework
@@ -43,10 +27,7 @@ namespace TulipDataManager.Controllers
             {
                 result = "Admin";
             }
-
-            //return new string[] { "value1", "value2", userId };
             return new string[] { userId, result };
-
         }
     }
 }

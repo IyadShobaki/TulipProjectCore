@@ -34,9 +34,9 @@ namespace TulipWpfUI.ViewModels
             base.OnViewLoaded(view);
             try
             {
-             
+
                 await LoadReports();
-                
+
             }
             catch (Exception ex)
             {
@@ -78,14 +78,9 @@ namespace TulipWpfUI.ViewModels
             get
             {
                 return !IsAdmin;
-                //if (Orders?.Count > 0)
-                //{
-                //    return false;
-                //}
-                //return true;
             }
         }
-        
+
 
         private async Task LoadReports()
         {
@@ -99,7 +94,7 @@ namespace TulipWpfUI.ViewModels
         public List<OrdersReportModel> Orders
         {
             get { return _orders; }
-            set 
+            set
             {
                 _orders = value;
                 NotifyOfPropertyChange(() => Orders);
@@ -108,7 +103,7 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-       public void BackToProduct()
+        public void BackToProduct()
         {
             _events.PublishOnUIThreadAsync(new LogOnEvent());
         }

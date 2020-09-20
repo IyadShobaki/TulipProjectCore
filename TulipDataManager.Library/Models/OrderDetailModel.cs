@@ -13,7 +13,5 @@ namespace TulipDataManager.Library.Models
         public int Quantity { get; set; }
         public decimal PurchasePrice { get; set; }
         public decimal Tax { get; set; }
-
-
     }
 }

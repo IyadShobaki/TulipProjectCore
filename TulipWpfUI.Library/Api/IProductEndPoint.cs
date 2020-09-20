@@ -8,10 +8,6 @@ namespace TulipWpfUI.Library.Api
     {
         Task<List<ProductModel>> GetAll();
         Task<bool> PostProductInventory(ProductModel product, InventoryModel inventory);
-
-        //Task PostInventoryInfo(InventoryModel inventory);
-        //Task<int> PostProductInfo(ProductModel product);
-        //Task UpdateProductQuantity(UpdatedQtyProductModel updatedQtyProduct);
         Task UpdateProductQuantity(int productId, int newQuantity);
     }
 }
