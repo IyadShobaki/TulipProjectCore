@@ -16,30 +16,24 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class OrderController : ControllerBase
     {
-        private readonly IConfiguration _config;
+        private readonly IOrderData _orderData;
 
-        public OrderController(IConfiguration config)
+        public OrderController(IOrderData orderData)
         {
-            _config = config;
+            _orderData = orderData;
         }
 
         [HttpPost]
         public int Post(OrderModel order)
         {
-
-            OrderData data = new OrderData(_config);
-            return data.InsertOrder(order);
-
+            return _orderData.InsertOrder(order);
         }
 
         [HttpPost]
         [Route("OrderDetails")]
         public void Post(List<OrderDetailModel> orderDetailModels)
         {
-
-            OrderData data = new OrderData(_config);
-            data.InsertOrderDetails(orderDetailModels);
-
+            _orderData.InsertOrderDetails(orderDetailModels);
         }
 
         [HttpPost]
@@ -48,8 +42,7 @@ namespace TulipDataManager.Controllers
         {
             string _id = orderId.ToString();
             int id = int.Parse(_id);
-            OrderData data = new OrderData(_config);
-            data.DeleteOrderById(id);
+            _orderData.DeleteOrderById(id);
 
         }
 
@@ -58,8 +51,7 @@ namespace TulipDataManager.Controllers
         [Route("GetOrdersReport")]
         public List<OrdersReportModel> GetOrdersReport()
         {
-            OrderData data = new OrderData(_config);
-            return data.GetOrdersReport();
+            return _orderData.GetOrdersReport();
         }
     }
 }

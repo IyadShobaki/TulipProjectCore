@@ -9,59 +9,52 @@ using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.DataAccess
 {
-    public class OrderData
+    public class OrderData : IOrderData
     {
-        private readonly IConfiguration _config;
+        private readonly ISqlDataAccess _sql;
 
-        public OrderData(IConfiguration config)
+        public OrderData(ISqlDataAccess sql)
         {
-            _config = config;
+            _sql = sql;
         }
 
         public int InsertOrder(OrderModel order)
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-            int newOrderId = sql.CreateOrder("dbo.spOrder_Insert", order, "TulipData");
-
+            int newOrderId = _sql.CreateOrder("dbo.spOrder_Insert", order, "TulipData");
             return newOrderId;
         }
 
 
         public void InsertOrderDetails(List<OrderDetailModel> orderDetailModels)
         {
-            using (SqlDataAccess sql = new SqlDataAccess(_config))
+            try
             {
-                try
-                {
-                    sql.StartTransaction("TulipData");
+                _sql.StartTransaction("TulipData");
 
-                    foreach (var orderDetailModel in orderDetailModels)
-                    {
-                        sql.SaveDataInTransaction("dbo.spOrderDetail_Insert", orderDetailModel);
-                    }
-
-                    sql.CommitTransaction();  // important
-                }
-                catch
+                foreach (var orderDetailModel in orderDetailModels)
                 {
-                    sql.RollbackTransaction();
-                    throw;
+                    _sql.SaveDataInTransaction("dbo.spOrderDetail_Insert", orderDetailModel);
                 }
+
+                _sql.CommitTransaction();  // important
             }
+            catch
+            {
+                _sql.RollbackTransaction();
+                throw;
+            }
+
 
         }
 
         public void DeleteOrderById(int orderId)
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-            sql.SaveData<dynamic>("dbo.spDeleteOrderById", new { Id = orderId }, "TulipData");
+            _sql.SaveData<dynamic>("dbo.spDeleteOrderById", new { Id = orderId }, "TulipData");
         }
 
         public List<OrdersReportModel> GetOrdersReport()
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var output = sql.LoadData<OrdersReportModel, dynamic>("dbo.spOrder_OrdersReport",
+            var output = _sql.LoadData<OrdersReportModel, dynamic>("dbo.spOrder_OrdersReport",
                 new { }, "TulipData");
 
             return output;

@@ -24,33 +24,30 @@ namespace TulipDataManager.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IConfiguration _config;
+        private readonly IUserData _userData;
 
         public UserController(ApplicationDbContext context,
-            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
-            IConfiguration config) // .NET CORE
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IUserData userData)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
-            _config = config;
+            _userData = userData;
         }
 
         [HttpGet]
         public UserModel GetById()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            UserData data = new UserData(_config);
-
-            return data.GetUserById(userId).First();
+            return _userData.GetUserById(userId).First();
         }
 
         [HttpPost]
         public void Post(UserModel user)
         {
-            UserData data = new UserData(_config);
-            data.InsertUser(user);
+            _userData.InsertUser(user);
         }
 
         [Authorize(Roles = "Admin")]
@@ -67,9 +64,7 @@ namespace TulipDataManager.Controllers
 
             foreach (var user in users)
             {
-                UserData data = new UserData(_config);
-
-                var userInfo = data.GetUserById(user.Id).First();
+                var userInfo = _userData.GetUserById(user.Id).First();
 
                 ApplicationUserModel u = new ApplicationUserModel
                 {

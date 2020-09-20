@@ -12,7 +12,7 @@ using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess : IDisposable
+    public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
         private bool isClosed = false;
         private IDbConnection _connection;

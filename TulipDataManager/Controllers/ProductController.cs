@@ -17,17 +17,16 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class ProductController : ControllerBase
     {
-        private readonly IConfiguration _config;
+        private readonly IProductData _productData;
 
-        public ProductController(IConfiguration config)
+        public ProductController(IProductData productData)
         {
-            _config = config;
+            _productData = productData;
         }
         [HttpGet]
         public List<ProductModel> Get()
         {
-            ProductData data = new ProductData(_config);
-            return data.GetProducts();
+            return _productData.GetProducts();
         }
 
         [HttpPost]
@@ -36,8 +35,7 @@ namespace TulipDataManager.Controllers
         {
             int productId = product[0];
             int newQuantity = product[1];
-            ProductData data = new ProductData(_config);
-            data.UpdateProductQuantityInStock(productId, newQuantity);
+            _productData.UpdateProductQuantityInStock(productId, newQuantity);
         }
 
 
@@ -51,8 +49,7 @@ namespace TulipDataManager.Controllers
             var product = JsonConvert.DeserializeObject<ProductModel>(productString);
             var inventory = JsonConvert.DeserializeObject<InventoryModel>(inventoryString);
 
-            ProductData data = new ProductData(_config);
-            data.InsertProductInventory(product, inventory);
+            _productData.InsertProductInventory(product, inventory);
 
         }
     }

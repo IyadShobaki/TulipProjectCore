@@ -16,19 +16,17 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class InventoryController : ControllerBase
     {
-        private readonly IConfiguration _config;
+        private readonly IInventoryData _inventoryData;
 
-        public InventoryController(IConfiguration config)
+        public InventoryController(IInventoryData inventoryData)
         {
-            _config = config;
+            _inventoryData = inventoryData;
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public List<InventoryDisplayModel> GetInventory()
         {
-            InventoryData data = new InventoryData(_config);
-
-            return data.GetInventory();
+            return _inventoryData.GetInventory();
         }
     }
 }

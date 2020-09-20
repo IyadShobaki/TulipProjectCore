@@ -16,6 +16,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TulipDataManager.Library.DataAccess;
+using TulipDataManager.Library.Internal.DataAccess;
 
 namespace TulipDataManager
 {
@@ -39,6 +41,14 @@ namespace TulipDataManager
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Dependency Injection - Personal Services -- Iyad
+            // AddTransient -> create a new instance each time you ask for it
+            services.AddTransient<IInventoryData, InventoryData>();
+            services.AddTransient<IOrderData, OrderData>();
+            services.AddTransient<IProductData, ProductData>();
+            services.AddTransient<IUserData, UserData>();
+            services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             // Add authentication -- Iyad
             services.AddAuthentication(options =>

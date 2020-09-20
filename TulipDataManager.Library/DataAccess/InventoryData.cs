@@ -9,18 +9,19 @@ using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.DataAccess
 {
-    public class InventoryData
+    public class InventoryData : IInventoryData
     {
         private readonly IConfiguration _config;
+        private readonly ISqlDataAccess _sql;
 
-        public InventoryData(IConfiguration config)
+        public InventoryData(IConfiguration config, ISqlDataAccess sql)
         {
             _config = config;
+            _sql = sql;
         }
         public List<InventoryDisplayModel> GetInventory()
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-            var output = sql.LoadData<InventoryDisplayModel, dynamic>("spInventory_GetAll",
+            var output = _sql.LoadData<InventoryDisplayModel, dynamic>("spInventory_GetAll",
                 new { }, "TulipData");
 
             return output;
