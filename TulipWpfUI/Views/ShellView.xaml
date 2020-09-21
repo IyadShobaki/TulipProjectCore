@@ -5,20 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TulipWpfUI.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="800" Width="1200"
+        Title="ShellView"
+        Height="800"
+        Width="1200"
         WindowStartupLocation="CenterScreen">
+
     <DockPanel>
-        <Menu DockPanel.Dock="Top" FontSize="18">
+        <Menu DockPanel.Dock="Top"
+              FontSize="18">
             <MenuItem Header="_File">
-                <MenuItem x:Name="ExitApplication" Header="E_xit" />
+                <MenuItem x:Name="ExitApplication"
+                          Header="E_xit" />
             </MenuItem>
             <MenuItem Header="_Account"
                       Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                <MenuItem x:Name="LogOut" Header="_Log Out" />
+                <MenuItem x:Name="LogOut"
+                          Header="_Log Out" />
             </MenuItem>
         </Menu>
+
         <Grid>
-            <ContentControl x:Name="ActiveItem" Margin="5" />
+
+            <ContentControl x:Name="ActiveItem"
+                            Margin="5" />
         </Grid>
+
     </DockPanel>
+
 </Window>

@@ -1,98 +1,106 @@
 ﻿<UserControl x:Class="TulipWpfUI.Views.DisplayInventoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TulipWpfUI.Views"
-             mc:Ignorable="d"  Background="LightCyan" FontSize="20"
-             d:DesignHeight="800" d:DesignWidth="1200">
+             mc:Ignorable="d"
+             FontSize="20"
+             d:DesignHeight="800"
+             d:DesignWidth="1200">
     <Grid>
-        <Rectangle Height="Auto" Width="Auto">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
-                    <GradientStop Color="#FF2281D1" Offset="0.1"/>
-                    <GradientStop Color="green" Offset="0.9"/>
-                    <GradientStop Color="#FF3" Offset="0.5"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
+        <Rectangle>
         </Rectangle>
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" Grid.Row="0"
-                   Text="Inventory Report"
-                   TextAlignment="Center"/>
-            <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+            <TextBlock Grid.Column="1"
+                       Grid.Row="0"
+                       Text="Inventory Report"
+                       TextAlignment="Center" />
+            <Grid Grid.Column="0"
+                  Grid.Row="1"
+                  Grid.RowSpan="2">
 
-                <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
-                    <Button x:Name="BackToProduct" Content="Main Page"
-                   Margin="10"  Style="{StaticResource RoundButtonTemplate}" />
+                <StackPanel VerticalAlignment="Bottom"
+                            Orientation="Vertical">
+                    <Button x:Name="BackToProduct"
+                            Content="Main Page"
+                            Margin="10"
+                            Style="{StaticResource RoundButtonTemplate}" />
                 </StackPanel>
 
             </Grid>
-            <TextBlock Text="There is no orders records found in the database!" TextAlignment="Center"
-                       Grid.Column="1" Grid.Row="1"
-                       Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-            <DataGrid Grid.Column="1" Grid.Row="1" x:Name="InventoryReport" AlternatingRowBackground="LightBlue"
-                  CanUserAddRows="False" CanUserDeleteRows="False" 
-                  AutoGenerateColumns="False" Margin="20 0 30 30"
-                  Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+            <TextBlock Text="There is no orders records found in the database!"
+                       TextAlignment="Center"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <DataGrid Grid.Column="1"
+                      Grid.Row="1"
+                      x:Name="InventoryReport"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      AutoGenerateColumns="False"
+                      Margin="20 0 30 30"
+                      Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
 
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Product Id">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=ProductId}"/>
+                                <TextBlock Text="{Binding Path=ProductId}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Product Name" Binding="{Binding Path=ProductName}" />
+                    <DataGridTextColumn Header="Product Name"
+                                        Binding="{Binding Path=ProductName}" />
 
                     <DataGridTemplateColumn Header="Total Quantity Purchased">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Quantity}"/>
+                                <TextBlock Text="{Binding Path=Quantity}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Quantity In Stock">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=QuantityInStock}"/>
+                                <TextBlock Text="{Binding Path=QuantityInStock}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Quantity Sold">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=QuantitySold}"/>
+                                <TextBlock Text="{Binding Path=QuantitySold}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Purchase Price">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=PurchasePrice, StringFormat={}{0:C}}"/>
+                                <TextBlock Text="{Binding Path=PurchasePrice, StringFormat={}{0:C}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Retail Price">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=RetailPrice, StringFormat={}{0:C}}"/>
+                                <TextBlock Text="{Binding Path=RetailPrice, StringFormat={}{0:C}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Purchase Date">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=PurchaseDate}"/>
+                                <TextBlock Text="{Binding Path=PurchaseDate}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
