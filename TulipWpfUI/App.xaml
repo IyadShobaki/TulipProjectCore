@@ -10,6 +10,39 @@
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+            <Style x:Key="RoundButtonTemplate" TargetType="Button">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#444444"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Width" Value="130"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="BorderBrush" Value="red"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="25" BorderThickness="1"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center">
+
+                                </ContentPresenter>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#666666" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Background" Value="orange"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -23,7 +23,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="270"/>
                 <ColumnDefinition Width="*"/>
@@ -34,10 +34,8 @@
                    TextAlignment="Center"/>
             <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
                 <StackPanel  VerticalAlignment="Bottom" Orientation="Vertical">
-                    <Button x:Name="BackToProduct" Background="#FF2281D1" 
-                     Width="110" 
-                    Height="50" Content="Product Page"
-                    Foreground="White" Margin="10" FontSize="13"/>
+                    <Button x:Name="BackToProduct"  Style="{StaticResource RoundButtonTemplate}" 
+                            Content="Main Page" Margin="10"/>
                 </StackPanel>
             </Grid>
             <TextBlock Text="There is no users records found in the database!" TextAlignment="Center"
@@ -68,25 +66,22 @@
             <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2" Margin="20 80 20 20"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <ComboBox x:Name="AvailableRoles" Margin="10"/>
-                <Button x:Name="AddSelectedRole" Background="#FF2281D1" 
-                      Height="50" Content="Add Role"
-                    Foreground="White" Margin="10" />
+                <Button x:Name="AddSelectedRole" Content="Add Role"
+                        Margin="10"  Style="{StaticResource RoundButtonTemplate}" />
                 <StackPanel Margin="0 200 0 0">
                     <TextBox x:Name="NewRole" Margin="10"/>
-                    <Button x:Name="CreateNewRole" Background="#FF2281D1" 
-                      Height="50" Content="Create New Role"
-                    Foreground="White" Margin="10" />
+                    <Button x:Name="CreateNewRole" Content="Create New Role"
+                            Margin="10"  Style="{StaticResource RoundButtonTemplate}" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3"
-                        Margin="20"
+            <StackPanel Orientation="Vertical" Grid.Row="1" 
+                        Grid.Column="3" Margin="20"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <TextBlock x:Name="SelectedUserName" Margin="10"/>
                 <TextBlock Text="Current Roles" Margin="10"/>
                 <ListBox x:Name="UserRoles" Margin="10"></ListBox>
-                <Button x:Name="RemoveSelectedRole" Background="#FF2281D1" 
-                    Height="50" Content="Remove Role"
-                    Foreground="White" Margin="10"/>
+                <Button x:Name="RemoveSelectedRole" Content="Remove Role"
+                         Margin="10"  Style="{StaticResource RoundButtonTemplate}" />
             </StackPanel>
         </Grid>
     </Grid>

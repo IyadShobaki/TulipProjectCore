@@ -66,18 +66,12 @@
                             Margin="10 10 10 0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="20">
-                <Button x:Name="Submit" Background="#FF2281D1" 
-                    VerticalAlignment="Bottom" Width="130" 
-                    Height="50" Content="Submit"
-                    Foreground="White" Margin="10 0 10 0" />
-                <Button x:Name="ResetFields" Background="#FF2281D1" 
-                    VerticalAlignment="Bottom" Width="130" 
-                    Height="50" Content="Reset"
-                    Foreground="White"  Margin="10 0 10 0" />
-                <Button x:Name="MainPage" Background="#FF2281D1" 
-                    VerticalAlignment="Bottom" Width="130" 
-                    Height="50" Content="Main Page"
-                    Foreground="White" Margin="10 0 0 0" />
+                <Button x:Name="Submit"  Style="{StaticResource RoundButtonTemplate}" 
+                    Content="Submit" Margin="10 0 10 0" />
+                <Button x:Name="ResetFields" Style="{StaticResource RoundButtonTemplate}" 
+                    Content="Reset" Margin="10 0 10 0" />
+                <Button x:Name="MainPage"  Style="{StaticResource RoundButtonTemplate}" 
+                    Content="Main Page" Margin="10 0 0 0" />
             </StackPanel>
         </StackPanel>
 

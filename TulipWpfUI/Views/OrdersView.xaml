@@ -23,7 +23,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="1" Grid.Row="0"
@@ -32,10 +32,9 @@
             <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
 
                 <StackPanel  VerticalAlignment="Bottom" Orientation="Vertical">
-                    <Button x:Name="BackToProduct" Background="#FF2281D1" 
-                     Width="110" 
-                    Height="50" Content="Product Page"
-                    Foreground="White" Margin="10" FontSize="13"/>
+                    <Button x:Name="BackToProduct" Content="Main Page"
+                             Style="{StaticResource RoundButtonTemplate}" 
+                             Margin="10"/>
                 </StackPanel>
 
             </Grid>
@@ -98,7 +97,6 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
         </Grid>
     </Grid>
 </UserControl>

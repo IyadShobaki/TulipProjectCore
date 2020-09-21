@@ -23,7 +23,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="220"/>
             </Grid.ColumnDefinitions>
@@ -33,22 +33,17 @@
             <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
                 <StackPanel VerticalAlignment="Bottom" Orientation="Vertical"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <Button x:Name="AddNewProduct" Background="#FF2281D1" 
-                     Width="110" 
-                    Height="50" Content="Add New Product"
-                    Foreground="White" Margin="10" FontSize="13"/>
-                    <Button x:Name="OrdersReport" Background="#FF2281D1" 
-                    Width="110" 
-                    Height="50" Content="Orders Report"
-                    Foreground="White" Margin="10" FontSize="13"/>
-                    <Button x:Name="InventoryReport" Background="#FF2281D1" 
-                     Width="110" 
-                    Height="50" Content="Inventory Report"
-                    Foreground="White" Margin="10" FontSize="13"/>
-                    <Button x:Name="UserManagement" Background="#FF2281D1" 
-                     Width="110" 
-                    Height="50" Content="User Management"
-                    Foreground="White" Margin="10" FontSize="13"/>
+                    <Button x:Name="AddNewProduct" Content="Add New Product"
+                             Style="{StaticResource RoundButtonTemplate}" 
+                             Margin="10" FontSize="13"/>
+                    <Button x:Name="OrdersReport" Content="Orders Report"
+                            Margin="10" Style="{StaticResource RoundButtonTemplate}"  />
+                    <Button x:Name="InventoryReport" Content="Inventory Report"
+                             Style="{StaticResource RoundButtonTemplate}" 
+                            Margin="10" FontSize="13"/>
+                    <Button x:Name="UserManagement" Content="User Management"
+                             Style="{StaticResource RoundButtonTemplate}" 
+                            Margin="10" FontSize="13" />
                 </StackPanel>
 
             </Grid>
@@ -113,12 +108,11 @@
                                 TextAlignment="Right"/>
                     </StackPanel>
                     <StackPanel Margin="10">
-                        <Button x:Name="CheckOut" Background="#FF2281D1" 
-                                                Content="Check Out"
-                                                Foreground="White" Margin="5"/>
+                        <Button x:Name="CheckOut" Content="Check Out"
+                                 Style="{StaticResource RoundButtonTemplate}" 
+                                Margin="5"/>
                     </StackPanel>
                 </StackPanel>
-
             </Grid>
         </Grid>
     </Grid>

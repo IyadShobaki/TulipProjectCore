@@ -49,18 +49,12 @@
             <TextBlock Text="Confirm Password:" Margin="10 10 10 0"/>
             <PasswordBox x:Name="ConfirmPassword"  Margin="10 5 10 0"/>
             <StackPanel Orientation="Horizontal" Margin="0 20">
-                <Button x:Name="Submit" Background="#FF2281D1" 
-                     Width="130" 
-                    Height="50" Content="Submit"
-                    Foreground="White" Margin="10 0 20 0" />
-                <Button x:Name="ResetFields" Background="#FF2281D1" 
-                    Width="130" 
-                    Height="50" Content="Reset"
-                    Foreground="White"  Margin="20 0 30 0" />
-                <Button x:Name="LogIn" Background="#FF2281D1" 
-                    Width="130" 
-                    Height="50" Content="Back to LogIn"
-                    Foreground="White" Margin="20 0 0 0"/>
+                <Button x:Name="Submit" Content="Submit"
+                        Margin="10 0 20 0"  Style="{StaticResource RoundButtonTemplate}" />
+                <Button x:Name="ResetFields"  Style="{StaticResource RoundButtonTemplate}" 
+                        Content="Reset" Margin="20 0 30 0" />
+                <Button x:Name="LogIn" Content="Back to LogIn"
+                        Margin="20 0 0 0" Style="{StaticResource RoundButtonTemplate}" />
             </StackPanel>
         </StackPanel>
 

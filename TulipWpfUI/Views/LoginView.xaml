@@ -51,15 +51,12 @@
             <TextBox x:Name="UserName" Margin="10 5 10 0"/>
             <TextBlock Text="Password:" Margin="10 10 10 0"/>
             <PasswordBox x:Name="Password"  Margin="10 5 10 0"/>
-            <Button x:Name="LogIn" Background="#FF2281D1" 
-                    VerticalAlignment="Bottom" Width="220" 
-                    Height="50" Content="LOGIN"
-                    Foreground="White" Margin="15"/>
+            <Button x:Name="LogIn" Style="{StaticResource RoundButtonTemplate}" 
+                    Content="LOGIN" Margin="15"/>
 
-            <Button x:Name="CreateAccount" Background="#FF2281D1" 
-                    VerticalAlignment="Bottom" Width="220" 
-                    Height="50" Content="Create Account"
-                    Foreground="White" />
+            <Button x:Name="CreateAccount"
+                    Style="{StaticResource RoundButtonTemplate}" 
+                    Content="Create Account" />
 
         </StackPanel>
 

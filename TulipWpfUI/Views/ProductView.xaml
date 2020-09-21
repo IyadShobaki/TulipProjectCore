@@ -28,17 +28,12 @@
                     <TextBlock Text="Quantity" Margin="5 0 0 0"/>
                     <TextBox x:Name="ItemQuantity" Width="130" Margin="15 0 0 0"/>
                 </StackPanel>
-                <Button x:Name="AddToCart" Background="#FF2281D1" 
-                            Content="Add To Cart"
-                            Foreground="White" Margin="5"
-                            HorizontalAlignment="Center"
-                            Width="160"
+                <Button x:Name="AddToCart" Content="Add To Cart" Margin="5"
+                             Style="{StaticResource RoundButtonTemplate}" 
                             Visibility="{Binding CanAddToCart, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                <Button x:Name="RemoveFromCart" Background="#FF2281D1" 
-                            Content="Remove From Cart"
-                            Foreground="White" Margin="10 5 5 5"
-                            HorizontalAlignment="Center"
-                            Width="160"
+                <Button x:Name="RemoveFromCart" Content="Remove From Cart"
+                            Margin="10 5 5 5"
+                         Style="{StaticResource RoundButtonTemplate}" 
                             Visibility="{Binding CanRemoveFromCart, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </StackPanel>
         </Border>

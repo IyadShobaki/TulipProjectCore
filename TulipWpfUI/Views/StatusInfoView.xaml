@@ -9,10 +9,8 @@
         <StackPanel Orientation="Vertical">
             <TextBlock x:Name="Header" FontSize="20" FontWeight="Bold" Margin="10"/>
             <TextBlock x:Name="Message" FontSize="18" Margin="10"/>
-            <Button x:Name="Close" Background="#FF2281D1" 
-                    Content="Close" MaxWidth="130"
-                    Foreground="White" Margin="20" 
-                     Padding="10"/>
+            <Button x:Name="Close" Content="Close"
+                    Margin="20" Padding="10"  Style="{StaticResource RoundButtonTemplate}" />
         </StackPanel>
     </Grid>
 </UserControl>
