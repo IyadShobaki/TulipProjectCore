@@ -88,7 +88,7 @@
                             <Border x:Name="Bd"
                                     BorderThickness="2"
                                     CornerRadius="5"
-                                    BorderBrush="DodgerBlue">
+                                    BorderBrush="Black">
                                 <ScrollViewer x:Name="PART_ContentHost" />
                             </Border>
                             <ControlTemplate.Triggers>
@@ -124,7 +124,7 @@
                             <Border x:Name="Bd"
                                     BorderThickness="2"
                                     CornerRadius="5"
-                                    BorderBrush="DodgerBlue">
+                                    BorderBrush="Black">
                                 <ScrollViewer x:Name="PART_ContentHost" />
                             </Border>
                             <ControlTemplate.Triggers>

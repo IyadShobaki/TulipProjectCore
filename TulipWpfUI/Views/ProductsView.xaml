@@ -32,6 +32,12 @@
             <Grid Grid.Column="0"
                   Grid.Row="1"
                   Grid.RowSpan="2">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Top">
+                    <TextBlock Text="Search Product By Name:"
+                               TextWrapping="Wrap" Margin="0 0 0 5"/>
+                    <TextBox Text="{Binding SearchProduct, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
                 <StackPanel VerticalAlignment="Bottom"
                             Orientation="Vertical"
                             Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">

@@ -54,6 +54,8 @@ namespace TulipWpfUI.ViewModels
 
             var productList = await _productEndPoint.GetAll();
             Products = new BindableCollection<ProductViewModel>(productList.Select(x => CreateProductViewModel(x)));
+            OriginalList = new List<ProductModel>(productList);
+            OriginalProducts = new BindableCollection<ProductViewModel>(Products);
             NotifyOfPropertyChange(() => Products);
         }
 
@@ -88,8 +90,29 @@ namespace TulipWpfUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
         }
 
+        private string _seacrhProduct;
+
+        public string SearchProduct
+        {
+            get { return _seacrhProduct; }
+            set 
+            {
+                _seacrhProduct = value;
+
+                Products = new BindableCollection<ProductViewModel>(OriginalProducts);
+
+                Products = new BindableCollection<ProductViewModel>(OriginalList.Select(x => CreateProductViewModel(x))
+                    .Where(x => x.Description.ToUpper().Contains(value.ToUpper())));
+
+         
+                NotifyOfPropertyChange(() => SearchProduct);
+                NotifyOfPropertyChange(() => Products);
+            }
+        }
 
 
+        public List<ProductModel> OriginalList { get; set; }
+        public BindableCollection<ProductViewModel> OriginalProducts { get; set; }
         public BindableCollection<ProductViewModel> Products { get; set; } = new BindableCollection<ProductViewModel>();
 
         private BindingList<ProductViewModel> _cart = new BindingList<ProductViewModel>();
