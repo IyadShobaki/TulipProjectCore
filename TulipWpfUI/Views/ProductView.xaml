@@ -10,17 +10,25 @@
                 Width="220"
                 Height="Auto">
             <StackPanel>
-                <Border Width="210"
-                        Height="360"
-                        CornerRadius="5"
-                        Margin="5">
+                <Border 
+                        Width="210"
+                        Height="350"
+                        Background="White"
+                        CornerRadius="20">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="1" />
+                        <DropShadowEffect ShadowDepth="3" />
                     </Border.Effect>
-                    <Border.Background>
-                        <ImageBrush ImageSource="{Binding ProductImage}"
-                                    Stretch="Uniform" />
-                    </Border.Background>
+                    <Border Width="180"
+                            Height="300"
+                            Margin="5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" />
+                        </Border.Effect>
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding ProductImage}"
+                                        Stretch="Uniform" />
+                        </Border.Background>
+                    </Border>
                 </Border>
                 <TextBlock Margin="5"
                            Text="{Binding RetailPrice, StringFormat={}{0:C}}"
