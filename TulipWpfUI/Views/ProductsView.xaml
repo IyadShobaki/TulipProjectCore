@@ -80,7 +80,7 @@
             </ScrollViewer>
             <Grid Grid.Column="2"
                   Grid.RowSpan="2"
-                  Visibility="{Binding CanCheckOut, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                  Visibility="{Binding CanReviewOrder, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -148,8 +148,8 @@
                                    TextAlignment="Right" />
                     </StackPanel>
                     <StackPanel Margin="10">
-                        <Button x:Name="CheckOut"
-                                Content="Check Out"
+                        <Button x:Name="ReviewOrder"
+                                Content="Review Order"
                                 Style="{StaticResource RoundButtonTemplate}"
                                 Margin="5" />
                     </StackPanel>

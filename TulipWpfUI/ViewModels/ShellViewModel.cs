@@ -13,7 +13,8 @@ namespace TulipWpfUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<RegisterEvent>,
         IHandle<LogInEvent>, IHandle<InsertProductsEvent>, IHandle<OrdersReportEvent>,
-        IHandle<DisplayInventoryEvent>, IHandle<UserManagementEvent>
+        IHandle<DisplayInventoryEvent>, IHandle<UserManagementEvent>,
+        IHandle<ReviewOrderEvent>
     {
 
         private IEventAggregator _events;
@@ -80,6 +81,11 @@ namespace TulipWpfUI.ViewModels
         public async Task HandleAsync(UserManagementEvent message, CancellationToken cancellationToken)
         {
             await ActivateItemAsync(IoC.Get<UserDisplayViewModel>(), cancellationToken);
+        }
+
+        public async Task HandleAsync(ReviewOrderEvent message, CancellationToken cancellationToken)
+        {
+            await ActivateItemAsync(IoC.Get<ReviewOrderViewModel>(), cancellationToken);
         }
 
         public bool IsLoggedIn
