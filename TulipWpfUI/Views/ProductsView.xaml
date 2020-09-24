@@ -5,13 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TulipWpfUI.Views"
              mc:Ignorable="d"
-             FontSize="18"
              d:DesignHeight="800"
              d:DesignWidth="1200">
     <Grid>
         <Rectangle>
         </Rectangle>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
@@ -22,12 +20,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="220" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1"
+            <TextBlock Grid.Column="0"
                        Grid.Row="0"
+                       Grid.ColumnSpan="2"
                        Text="{Binding LoggedInUser, StringFormat='{} Hello, {0}!'}"
                        TextAlignment="Center"
                        FontFamily="Segoe Print"
-                       FontSize="24"
+                       FontSize="30"
                        FontWeight="Bold" />
             <Grid Grid.Column="0"
                   Grid.Row="1"
@@ -36,30 +35,32 @@
                             VerticalAlignment="Top">
                     <TextBlock Text="Search Product By Name:"
                                TextWrapping="Wrap" Margin="0 0 0 5"/>
-                    <TextBox Text="{Binding SearchProduct, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Text="{Binding SearchProduct, UpdateSourceTrigger=PropertyChanged}" 
+                             FontSize="18"/>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Bottom"
                             Orientation="Vertical"
                             Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <Button x:Name="AddNewProduct"
                             Content="Add New Product"
+                            FontSize="13"
                             Style="{StaticResource RoundButtonTemplate}"
-                            Margin="10"
-                            FontSize="13" />
+                            Margin="0 10"/>
                     <Button x:Name="OrdersReport"
                             Content="Orders Report"
-                            Margin="10"
+                            Margin="0 10"
+                            FontSize="13"
                             Style="{StaticResource RoundButtonTemplate}" />
                     <Button x:Name="InventoryReport"
                             Content="Inventory Report"
+                            FontSize="13"
                             Style="{StaticResource RoundButtonTemplate}"
-                            Margin="10"
-                            FontSize="13" />
+                            Margin="0 10" />
                     <Button x:Name="UserManagement"
                             Content="User Management"
-                            Style="{StaticResource RoundButtonTemplate}"
-                            Margin="10"
-                            FontSize="13" />
+                            Margin="0 10"
+                            FontSize="13"
+                            Style="{StaticResource RoundButtonTemplate}"/>
                 </StackPanel>
 
             </Grid>
@@ -147,11 +148,11 @@
                         <TextBlock Text="{Binding TotalTotal, StringFormat={}{0:C}}"
                                    TextAlignment="Right" />
                     </StackPanel>
-                    <StackPanel Margin="10">
+                    <StackPanel Margin="0 30">
                         <Button x:Name="ReviewOrder"
                                 Content="Review Order"
-                                Style="{StaticResource RoundButtonTemplate}"
-                                Margin="5" />
+                                Style="{StaticResource RoundButtonTemplate}"                          
+                                Width="180"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

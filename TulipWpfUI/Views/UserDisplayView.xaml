@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TulipWpfUI.Views"
              mc:Ignorable="d"
-             FontSize="24"
              d:DesignHeight="800"
              d:DesignWidth="1200">
     <Grid>
@@ -19,15 +18,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="350" />
-                <ColumnDefinition Width="270" />
+                <ColumnDefinition Width="350" />
                 <ColumnDefinition Width="*" />
 
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1"
+            <TextBlock Grid.Column="0"
                        Grid.Row="0"
-                       Grid.ColumnSpan="3"
+                       Grid.ColumnSpan="4"
                        Text="Application Users"
-                       TextAlignment="Center" />
+                       TextAlignment="Center" 
+                       FontSize="20"
+                       FontWeight="Bold"/>
             <Grid Grid.Column="0"
                   Grid.Row="1"
                   Grid.RowSpan="2">
@@ -50,29 +51,24 @@
                         Grid.Column="1"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <TextBlock Text="Users and their roles List"
-                           Margin="10"
+                           Margin="0 10 0 0"
+                           FontSize="20"
                            TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal"
-                            Margin="10">
-                    <TextBlock Text="First Name" />
-                    <TextBlock Text="Last Name"
-                               Margin="20 0 20 0" />
-                </StackPanel>
                 <ListBox x:Name="Users"
                          Width="Auto"
-                         Height="Auto"
-                         Margin="10">
+                         Height="Auto">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical"
-                                        Margin="10">
+                            <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding FirstName}" />
+                                    <TextBlock Text="{Binding FirstName}" Margin="0 0 6 0"
+                                               FontSize="18" FontWeight="Bold" />
                                     <TextBlock Text="{Binding LastName}"
-                                               Margin="20 0 20 0" />
+                                               FontSize="18"
+                                               FontWeight="Bold" />
                                 </StackPanel>
                                 <TextBlock Text="{Binding RoleList}"
-                                           FontSize="18" />
+                                           FontSize="15" FontStyle="Italic"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -81,39 +77,51 @@
             <StackPanel Orientation="Vertical"
                         Grid.Row="1"
                         Grid.Column="2"
-                        Margin="20 80 20 20"
+                        Margin="0 20"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                <ComboBox x:Name="AvailableRoles"
-                          Margin="10" />
-                <Button x:Name="AddSelectedRole"
-                        Content="Add Role"
-                        Margin="10"
+                <TextBlock x:Name="SelectedUserName"
+                           Margin="10"
+                           FontSize="18"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="Current Roles"
+                           Margin="10"
+                           FontSize="18" />
+                <ListBox x:Name="UserRoles"
+                         Margin="10"
+                         FontSize="18">
+                </ListBox>
+                <Button x:Name="RemoveSelectedRole"
+                        Content="Remove Role"
+                        Width="200"
+                        Margin="0 20"
                         Style="{StaticResource RoundButtonTemplate}" />
-                <StackPanel Margin="0 200 0 0">
-                    <TextBox x:Name="NewRole"
-                             Margin="10" />
-                    <Button x:Name="CreateNewRole"
-                            Content="Create New Role"
-                            Margin="10"
-                            Style="{StaticResource RoundButtonTemplate}" />
-                </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Vertical"
                         Grid.Row="1"
                         Grid.Column="3"
-                        Margin="20"
+                        Margin="0 37"
+                        Width="270"
+                        HorizontalAlignment="Left"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                <TextBlock x:Name="SelectedUserName"
-                           Margin="10" />
-                <TextBlock Text="Current Roles"
-                           Margin="10" />
-                <ListBox x:Name="UserRoles"
-                         Margin="10"></ListBox>
-                <Button x:Name="RemoveSelectedRole"
-                        Content="Remove Role"
-                        Margin="10"
+                <ComboBox x:Name="AvailableRoles"
+                          Margin="5 0 " 
+                          FontSize="18"/>
+                <Button x:Name="AddSelectedRole"
+                        Content="Add Role"
+                        Margin="0 40" Width="200"
                         Style="{StaticResource RoundButtonTemplate}" />
+                <StackPanel Margin="0 200 0 0">
+                    <TextBox x:Name="NewRole"
+                             Margin="5 0"
+                             FontSize="18"/>
+                    <Button x:Name="CreateNewRole"
+                            Content="Create New Role"
+                            Margin="10"
+                            Width="200"
+                            Style="{StaticResource RoundButtonTemplate}" />
+                </StackPanel>
             </StackPanel>
+            
         </Grid>
     </Grid>
 </UserControl>

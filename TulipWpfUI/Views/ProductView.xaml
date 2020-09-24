@@ -32,7 +32,7 @@
                 </Border>
                 <TextBlock Margin="5"
                            Text="{Binding RetailPrice, StringFormat={}{0:C}}"
-                           FontSize="17"
+                           FontSize="20"
                            FontWeight="Bold"
                            HorizontalAlignment="Center" />
                 <TextBlock Margin="5 0"
@@ -56,16 +56,19 @@
                                Margin="5 0 0 0" />
                     <TextBox x:Name="ItemQuantity"
                              Width="120"
+                             FontSize="18"
                              Margin="15 0 0 0" />
                 </StackPanel>
                 <Button x:Name="AddToCart"
                         Content="Add To Cart"
                         Margin="5"
+                        Width="200"
                         Style="{StaticResource RoundButtonTemplate}"
                         Visibility="{Binding CanAddToCart, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
                 <Button x:Name="RemoveFromCart"
                         Content="Remove From Cart"
                         Margin="10 5 5 5"
+                        Width="200"
                         Style="{StaticResource RoundButtonTemplate}"
                         Visibility="{Binding CanRemoveFromCart, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
             </StackPanel>

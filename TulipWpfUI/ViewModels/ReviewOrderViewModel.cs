@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
 
@@ -208,5 +209,9 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        public void CancelOrder()
+        {
+            _events.PublishOnUIThreadAsync(new LogOnEvent());
+        }
     }
 }
