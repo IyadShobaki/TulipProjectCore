@@ -98,6 +98,7 @@ namespace TulipWpfUI.ViewModels
             //dialog.Filter = "Image files (*.png; *.jpg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*"; 
             // Just for specific files
             dialog.Filter = "Image files (*.png; *.jpg)|*.png;*.jpg;*.jpeg";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (dialog.ShowDialog() == true)
             {
                 var currentDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);

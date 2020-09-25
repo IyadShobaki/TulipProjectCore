@@ -29,54 +29,34 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="120"
-                                        Header="Quantity">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ItemQuantity}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
+                                        Header="Quantity"
+                                        DisplayMemberBinding="{Binding ItemQuantity}">
                         </GridViewColumn>
                         <GridViewColumn Width="120"
-                                        Header="Description">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ProductName}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
+                                        Header="Description"
+                                        DisplayMemberBinding="{Binding ProductName}">
                         </GridViewColumn>
                         <GridViewColumn Width="120"
-                                        Header="Tax">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Tax, StringFormat={}{0:C}}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
+                                        Header="Tax"
+                                        DisplayMemberBinding="{Binding Tax, StringFormat={}{0:C}}">
                         </GridViewColumn>
                         <GridViewColumn Width="120"
-                                        Header="SubTotal">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding SubTotal, StringFormat={}{0:C}}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
+                                        Header="SubTotal"
+                                        DisplayMemberBinding="{Binding SubTotal, StringFormat={}{0:C}}">
                         </GridViewColumn>
                         <GridViewColumn Width="120"
-                                        Header="Total">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Total, StringFormat={}{0:C}}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
+                                        Header="Total"
+                                        DisplayMemberBinding="{Binding Total, StringFormat={}{0:C}}">
                         </GridViewColumn>
                         <GridViewColumn Width="120"
-                                        Header="Image">
+                                        Header="Image" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="{Binding ProductImage}" Height="100"/>
+                                    <Image Source="{Binding ProductImage}"
+                                           Height="100" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-
                     </GridView>
                 </ListView.View>
             </ListView>
