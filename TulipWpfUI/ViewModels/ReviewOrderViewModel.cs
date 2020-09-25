@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
+using TulipWpfUI.Library.Helpers;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
@@ -21,11 +22,12 @@ namespace TulipWpfUI.ViewModels
         private readonly IOrderEndPoint _orderEndPoint;
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
+        private readonly IConfigHelper _configHelper;
 
         public ReviewOrderViewModel(IProductEndPoint productEndPoint,
             IEventAggregator events, ILoggedInUserModel loggedInUserModel,
             IOrderEndPoint orderEndPoint, StatusInfoViewModel status,
-            IWindowManager window)
+            IWindowManager window, IConfigHelper configHelper)
         {
             _productEndPoint = productEndPoint;
             _events = events;
@@ -33,6 +35,7 @@ namespace TulipWpfUI.ViewModels
             _orderEndPoint = orderEndPoint;
             _status = status;
             _window = window;
+            _configHelper = configHelper;
         }
         public static BindingList<ProductViewModel> CartCopy;
 
@@ -126,6 +129,92 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        private ProductViewModel _selectedProduct;
+
+        public ProductViewModel SelectedProduct
+        {
+            get { return _selectedProduct; }
+            set 
+            { 
+                _selectedProduct = value;
+                NotifyOfPropertyChange(() => SelectedProduct);
+                NotifyOfPropertyChange(() => CanDeleteProduct);
+                NotifyOfPropertyChange(() => CanUpdateProductQuantity);
+            }
+        }
+
+        public bool CanUpdateProductQuantity
+        {
+            get
+            {
+                bool output = false;
+
+                if (SelectedProduct != null)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+        private int _newQuantity;
+
+        public int NewQuantity
+        {
+            get { return _newQuantity; }
+            set 
+            { 
+                _newQuantity = value;
+                NotifyOfPropertyChange(() => NewQuantity);
+            }
+        }
+
+
+        public void UpdateProductQuantity()
+        {
+            if (NewQuantity <= SelectedProduct.QuantityInStock)
+            {
+                SelectedProduct.ItemQuantity = NewQuantity;
+                SelectedProduct.NotifyOfPropertyChange(() => SelectedProduct.Tax);
+                SelectedProduct.NotifyOfPropertyChange(() => SelectedProduct.SubTotal);
+                SelectedProduct.NotifyOfPropertyChange(() => SelectedProduct.Total);
+
+                NotifyOfPropertyChange(() => Cart);
+                NotifyOfPropertyChange(() => TotalSubTotal);
+                NotifyOfPropertyChange(() => TotalTax);
+                NotifyOfPropertyChange(() => TotalTotal);
+            }
+            else
+            {
+                MessageBox.Show($"{SelectedProduct.QuantityInStock} items left in stock!\nTry different quantity. Thank you!");
+            }
+            
+        }
+
+        public bool CanDeleteProduct
+        {
+            get
+            {
+                bool output = false;
+
+                if (SelectedProduct != null)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public void DeleteProduct()
+        {
+            Cart.Remove(SelectedProduct);
+            NotifyOfPropertyChange(() => Cart);
+            NotifyOfPropertyChange(() => TotalSubTotal);
+            NotifyOfPropertyChange(() => TotalTax);
+            NotifyOfPropertyChange(() => TotalTotal);
+        }
+
 
         public bool CanCheckOut
         {
@@ -201,7 +290,7 @@ namespace TulipWpfUI.ViewModels
                 // Comment the following line inside OrderDetail table and publish
                 // CONSTRAINT [FK_OrderDetail_Order] FOREIGN KEY (OrderId) REFERENCES [Order](Id)
                 // await _orderEndPoint.DeleteOrder(orderId); // Worked well
-
+                await _events.PublishOnUIThreadAsync(new LogOnEvent());
             }
             catch (Exception ex)
             {

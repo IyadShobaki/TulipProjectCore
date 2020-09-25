@@ -55,24 +55,27 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-
+        private decimal _subTotal;
         public decimal SubTotal
         {
             get
             {
                 return CalculateSubTotal();
             }
+            set
+            {
+                _subTotal = value;
+                NotifyOfPropertyChange(() => SubTotal);
+            }
         }
 
         private decimal CalculateSubTotal()
         {
-            decimal subTotal = 0;
-
-            subTotal += (RetailPrice * ItemQuantity);
-
+            decimal subTotal = RetailPrice * ItemQuantity;
             return subTotal;
         }
 
+        private decimal _tax;
         public decimal Tax
         {
             get
@@ -82,6 +85,11 @@ namespace TulipWpfUI.ViewModels
                     return CalculateTax();
                 }
                 return 0;
+            }
+            set
+            {
+                _tax = value;
+                NotifyOfPropertyChange(() => Tax);
             }
         }
 
@@ -95,6 +103,7 @@ namespace TulipWpfUI.ViewModels
             return taxAmount;
         }
 
+        private decimal _total;
         public decimal Total
         {
             get
@@ -102,6 +111,11 @@ namespace TulipWpfUI.ViewModels
                 decimal total = SubTotal + Tax;
 
                 return total;
+            }
+            set
+            {
+                _total = value;
+                NotifyOfPropertyChange(() => Total);
             }
         }
 
