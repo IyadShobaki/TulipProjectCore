@@ -92,6 +92,7 @@ namespace TulipWpfUI.ViewModels
 
         public void SelectImage()
         {
+
             OpenFileDialog dialog = new OpenFileDialog();
             // If you want to show specific files and all files
             //dialog.Filter = "Image files (*.png; *.jpg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*"; 
@@ -99,8 +100,15 @@ namespace TulipWpfUI.ViewModels
             dialog.Filter = "Image files (*.png; *.jpg)|*.png;*.jpg;*.jpeg";
             if (dialog.ShowDialog() == true)
             {
+                var currentDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+                //{D:\C#Projects\TulipProjectCore\TulipWpfUI\bin\Debug\netcoreapp3.1\}
+                string projectDirectory = currentDirectory.Parent.Parent.Parent.FullName;
+                //D:\\C#Projects\\TulipProjectCore\\TulipWpfUI"
+                // Create Images folder if not exists
+                string destinationFolder = (Directory.CreateDirectory(@$"{projectDirectory}\Images\").ToString());
+
                 string fileName = dialog.FileName;
-                string destinationFolder = @"D:\C#Projects\TulipProjectCore\TulipWpfUI\Images\";
+                //string destinationFolder = @"D:\C#Projects\TulipProjectCore\TulipWpfUI\Images\";
 
                 File.Copy(fileName, $"{destinationFolder}{Path.GetFileName(fileName)}", true);
 
