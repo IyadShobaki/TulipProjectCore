@@ -56,8 +56,16 @@
                      Margin="10 5 10 0" />
             <TextBlock Text="Product Image Url:"
                        Margin="10 10 10 0" />
+            <StackPanel Orientation="Horizontal"
+                        Margin="10 5 10 0">
             <TextBox x:Name="ProductImage"
-                     Margin="10 5 10 0" />
+                      Width="350" />
+                <Button Content="Select Image"
+                        x:Name="SelectImage"
+                        Margin="20 0 0 0"
+                        Width="110"
+                        Style="{StaticResource RoundButtonTemplate}" />
+            </StackPanel>
             <TextBlock Text="Total Quantity Purchased:"
                        Margin="10 10 10 0" />
             <TextBox x:Name="TotalQuantity"
@@ -87,7 +95,7 @@
                           Margin="10 10 10 0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal"
-                        Margin="20">
+                        Margin="10">
                 <Button x:Name="Submit"
                         Style="{StaticResource RoundButtonTemplate}"
                         Content="Submit"

@@ -1,7 +1,9 @@
 ﻿using Caliburn.Micro;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,6 +88,29 @@ namespace TulipWpfUI.ViewModels
                 NotifyOfPropertyChange(() => Description);
                 NotifyOfPropertyChange(() => CanSubmit);
             }
+        }
+
+        public void SelectImage()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            // If you want to show specific files and all files
+            //dialog.Filter = "Image files (*.png; *.jpg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*"; 
+            // Just for specific files
+            dialog.Filter = "Image files (*.png; *.jpg)|*.png;*.jpg;*.jpeg";
+            if (dialog.ShowDialog() == true)
+            {
+                string fileName = dialog.FileName;
+                string destinationFolder = @"D:\C#Projects\TulipProjectCore\TulipWpfUI\Images\";
+
+                File.Copy(fileName, $"{destinationFolder}{Path.GetFileName(fileName)}", true);
+
+                //string[] imageName = fileName.Split('\\');
+                //ProductImage = $"/Images/{imageName[imageName.Length - 1]}";
+                ProductImage = $"/Images/{Path.GetFileName(fileName)}";
+                NotifyOfPropertyChange(() => ProductImage);
+
+            }
+
         }
 
         private string _productImage;
