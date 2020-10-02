@@ -62,6 +62,26 @@ namespace TulipDataManager.Library.Internal.DataAccess
             }
         }
 
+
+        public int CreateNotebook(string storedProcedure, NotebookModel notebook, string connectionStringName)
+        {
+            string connectionString = GetConnectionString(connectionStringName);
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                var p = new DynamicParameters();
+                p.Add("@UserId", notebook.UserId);
+                p.Add("@Name", notebook.Name);
+                p.Add("@Id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute(storedProcedure,
+                        p, commandType: CommandType.StoredProcedure);
+
+                int newId = p.Get<int>("@Id");
+                return newId;
+            }
+        }
+
         public int CreateOrder(string storedProcedure, OrderModel order, string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);

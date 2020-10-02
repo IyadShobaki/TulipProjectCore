@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TulipDataManager.Data;
 
@@ -16,12 +17,15 @@ namespace TulipDataManager.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _config;
 
         public TokenController(ApplicationDbContext context,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config;
         }
 
         [Route("/token")]
@@ -69,10 +73,11 @@ namespace TulipDataManager.Controllers
             // we should make it a long string with random letters and numbers,
             // and eventually store it in azure key vault or something similar
             // encrypted and protected
+            string key = _config.GetValue<string>("Secrets:SecurityKey");
             var token = new JwtSecurityToken(
                 new JwtHeader(
                     new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTell")),
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                         SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
 

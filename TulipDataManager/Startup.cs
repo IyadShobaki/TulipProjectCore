@@ -48,6 +48,7 @@ namespace TulipDataManager
             services.AddTransient<IOrderData, OrderData>();
             services.AddTransient<IProductData, ProductData>();
             services.AddTransient<IUserData, UserData>();
+            services.AddTransient<INotebookData, NotebookData>();
             services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             // Add authentication -- Iyad

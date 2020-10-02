@@ -6,6 +6,7 @@ namespace TulipDataManager.Library.Internal.DataAccess
     public interface ISqlDataAccess
     {
         void CommitTransaction();
+        int CreateNotebook(string storedProcedure, NotebookModel notebook, string connectionStringName);
         int CreateOrder(string storedProcedure, OrderModel order, string connectionStringName);
         int CreateProductTransaction(string storedProcedure, ProductModel product);
         void Dispose();

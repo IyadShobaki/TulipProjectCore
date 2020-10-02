@@ -20,25 +20,18 @@ namespace TulipWpfUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _loggedInUserModel;
         private readonly IConfigHelper _configHelper;
-        private readonly IOrderEndPoint _orderEndPoint;
         private readonly IAPIHelper _apiHelper;
-        private readonly StatusInfoViewModel _status;
-        private readonly IWindowManager _window;
         private readonly ReviewOrderViewModel _reviewOrderViewModel;
 
         public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
             ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper,
-            IOrderEndPoint orderEndPoint, IAPIHelper apiHelper, StatusInfoViewModel status,
-            IWindowManager window, ReviewOrderViewModel reviewOrderViewModel)
+            IAPIHelper apiHelper, ReviewOrderViewModel reviewOrderViewModel)
         {
             _productEndPoint = productEndPoint;
             _events = events;
             _loggedInUserModel = loggedInUserModel;
             _configHelper = configHelper;
-            _orderEndPoint = orderEndPoint;
             _apiHelper = apiHelper;
-            _status = status;
-            _window = window;
             _reviewOrderViewModel = reviewOrderViewModel;
         }
 
@@ -78,7 +71,6 @@ namespace TulipWpfUI.ViewModels
             NotifyOfPropertyChange(() => TotalSubTotal);
             NotifyOfPropertyChange(() => TotalTax);
             NotifyOfPropertyChange(() => TotalTotal);
-            // NotifyOfPropertyChange(() => CanCheckOut);
             NotifyOfPropertyChange(() => CanReviewOrder);
         }
 
@@ -90,7 +82,6 @@ namespace TulipWpfUI.ViewModels
             NotifyOfPropertyChange(() => TotalSubTotal);
             NotifyOfPropertyChange(() => TotalTax);
             NotifyOfPropertyChange(() => TotalTotal);
-            //NotifyOfPropertyChange(() => CanCheckOut);
             NotifyOfPropertyChange(() => CanReviewOrder);
         }
 
@@ -131,7 +122,6 @@ namespace TulipWpfUI.ViewModels
                 NotifyOfPropertyChange(() => TotalSubTotal);
                 NotifyOfPropertyChange(() => TotalTax);
                 NotifyOfPropertyChange(() => TotalTotal);
-                //NotifyOfPropertyChange(() => CanCheckOut);
                 NotifyOfPropertyChange(() => CanReviewOrder);
             }
         }
@@ -209,95 +199,6 @@ namespace TulipWpfUI.ViewModels
             _events.PublishOnUIThreadAsync(new ReviewOrderEvent());
         }
 
-
-        //public bool CanCheckOut
-        //{
-        //    get
-        //    {
-        //        bool output = false;
-
-        //        if (Cart.Count > 0)
-        //        {
-        //            output = true;
-        //        }
-
-        //        return output;
-        //    }
-        //}
-
-        //public async Task CheckOut()
-        //{
-        //    dynamic settings = new ExpandoObject();
-        //    settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
-        //    settings.ResizeMode = ResizeMode.NoResize;
-
-
-        //    try
-        //    {
-
-        //        OrderModel orderModel = new OrderModel();
-        //        orderModel.UserId = _loggedInUserModel.Id;
-        //        orderModel.SubTotal = TotalSubTotal;
-        //        orderModel.Tax = TotalTax;
-        //        orderModel.Total = TotalTotal;
-
-        //        int orderId = await _orderEndPoint.PostOrderInfo(orderModel);
-
-        //        List<OrderDetailModel> orderDetailModels = new List<OrderDetailModel>();
-
-        //        foreach (var item in Cart)
-        //        {
-        //            OrderDetailModel orderDetailModel = new OrderDetailModel();
-        //            orderDetailModel.OrderId = orderId;
-        //            orderDetailModel.ProductId = item.Id;
-        //            orderDetailModel.Quantity = item.ItemQuantity;
-        //            orderDetailModel.PurchasePrice = item.SubTotal;
-        //            orderDetailModel.Tax = item.Tax;
-
-        //            orderDetailModels.Add(orderDetailModel);
-        //        }
-        //        if (await _orderEndPoint.PostOrderDetailsInfo(orderDetailModels))
-        //        {
-
-        //            foreach (var item in Cart)
-        //            {
-        //                await _productEndPoint.UpdateProductQuantity(item.Id, (item.QuantityInStock - item.ItemQuantity));
-        //            }
-
-        //            settings.Title = "System Message";
-        //            _status.UpdateMessage("Thank you for shopping with us!", $"{_loggedInUserModel.FirstName}, your order Submitted Successfully");
-        //            await _window.ShowDialogAsync(_status, null, settings);
-
-        //            await ResetCart();
-        //        }
-        //        else
-        //        {
-        //            await _orderEndPoint.DeleteOrder(orderId);
-        //            settings.Title = "System Error";
-        //            _status.UpdateMessage("Error!!!", "Something went wrong! Please try again later");
-        //            await _window.ShowDialogAsync(_status, null, settings);
-        //        }
-        //        // For testing
-        //        // Comment the following line inside OrderDetail table and publish
-        //        // CONSTRAINT [FK_OrderDetail_Order] FOREIGN KEY (OrderId) REFERENCES [Order](Id)
-        //        // await _orderEndPoint.DeleteOrder(orderId); // Worked well
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-        //private async Task ResetCart()
-        //{
-        //    await LoadProducts();
-        //    Cart = new BindingList<ProductViewModel>();
-        //    NotifyOfPropertyChange(() => Cart);
-
-
-        //}
-
         public string LoggedInUser
         {
             get
@@ -352,6 +253,11 @@ namespace TulipWpfUI.ViewModels
         {
 
             _events.PublishOnUIThreadAsync(new UserManagementEvent());
+        }
+
+        public void NotesPage()
+        {
+            _events.PublishOnUIThreadAsync(new NotesEvent());
         }
     }
 }

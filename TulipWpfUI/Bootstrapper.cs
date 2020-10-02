@@ -35,6 +35,7 @@ namespace TulipWpfUI
                 .PerRequest<IProductEndPoint, ProductEndPoint>()
                 .PerRequest<IOrderEndPoint, OrderEndPoint>()
                 .PerRequest<IUserEndPoint, UserEndPoint>()
+                .PerRequest<INotesEndPoint, NotesEndPoint>()
                 .PerRequest<IInventoryEndPoint, InventoryEndPoint>();
 
             _container

@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Notebook]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [UserId] NVARCHAR(128) NOT NULL, 
+    [Name] NVARCHAR(50) NOT NULL,
+    CONSTRAINT [FK_NoteBook_User] FOREIGN KEY (UserId) REFERENCES [User](Id)
+)
