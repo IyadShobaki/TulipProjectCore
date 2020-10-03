@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -33,8 +35,10 @@ namespace TulipWpfUI.Views
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             //int amountOfCharacters = (new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd)).Text.Length;
-            int amountOfCharacters = ContentTextBox.Text.Length;
-            StatusTextBlock.Text = $"Document length: {amountOfCharacters} characters";
+            //int amountOfCharacters = ContentTextBox.Text.Length;
+            //StatusTextBlock.Text = $"Document length: {amountOfCharacters} characters";
         }
+
+
     }
 }

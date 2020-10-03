@@ -118,8 +118,12 @@ namespace TulipWpfUI.ViewModels
                 using (FileStream fileStream = new FileStream(SelectedNote.FileLocation, FileMode.Open))
                 {
                     TextRange range = new TextRange(RichText.Document.ContentStart, RichText.Document.ContentEnd);
-                    range.Load(fileStream, DataFormats.Rtf);
-                    ContentTextBox = range.Text;
+                    if (fileStream.Length > 0)
+                    {
+                        range.Load(fileStream, DataFormats.Rtf);
+                        ContentTextBox = range.Text;
+                    }
+                   
                 }
                 NotifyOfPropertyChange(() => SelectedNote);
                 NotifyOfPropertyChange(() => CanSaveButton);
@@ -129,17 +133,21 @@ namespace TulipWpfUI.ViewModels
         public RichTextBox RichText { get; set; } 
 
         private string _contentTextBox;
-
         public string ContentTextBox 
         {
             get { return _contentTextBox; }
             set
             {
                 _contentTextBox = value;
+                int amountOfCharacters = ContentTextBox.Length;
+                StatusTextBlock = $"Document length: {amountOfCharacters} characters";
                 NotifyOfPropertyChange(() => ContentTextBox);
+                
+             
             }
         }
 
+       
         private string _statusTextBlock;
 
         public string StatusTextBlock

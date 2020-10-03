@@ -58,10 +58,10 @@
                    Grid.Row="1">
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button x:Name="BoldButton">
+                    <ToggleButton x:Name="BoldButton">
                         <TextBlock Text="B"
                                    FontWeight="Bold" />
-                    </Button>
+                    </ToggleButton>
                     <ToggleButton x:Name="ItalicButton">
                         <TextBlock Text="I"
                                    FontStyle="Italic" />
@@ -81,10 +81,13 @@
             </ToolBarTray>
             <Grid >
                 <StackPanel Background="White">
+                    
                     <TextBox Height="500"
+                             Visibility="{Binding CanSaveButton, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
                              x:Name="ContentTextBox"
                              Text="{Binding ContentTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             TextChanged="TextBox_TextChanged"/>
+                             TextChanged="TextBox_TextChanged"
+                             />
                 </StackPanel>
                 <StatusBar VerticalAlignment="Bottom">
                     <StatusBarItem>
