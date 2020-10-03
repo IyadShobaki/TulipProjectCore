@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TulipWpfUI.Views"
+             xmlns:rh="clr-namespace:TulipWpfUI.Helpers"
              mc:Ignorable="d"
              d:DesignHeight="800"
              d:DesignWidth="1200">
@@ -58,31 +59,41 @@
                    Grid.Row="1">
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <ToggleButton x:Name="BoldButton">
+                    <ToggleButton x:Name="BoldButton"
+                                  Click="BoldButton_Click">
                         <TextBlock Text="B"
                                    FontWeight="Bold" />
                     </ToggleButton>
-                    <ToggleButton x:Name="ItalicButton">
+                    <ToggleButton x:Name="ItalicButton"
+                                  Click="ItalicButton_Click">
                         <TextBlock Text="I"
                                    FontStyle="Italic" />
                     </ToggleButton>
-                    <ToggleButton x:Name="UnderlineButton">
+                    <ToggleButton x:Name="UnderlineButton"
+                                  Click="UnderlineButton_Click">
                         <TextBlock Text="U"
-                                   TextDecorations="Underline" />
+                                   TextDecorations="Underline"
+                                   />
                     </ToggleButton>
-                    <ComboBox ItemsSource="{Binding FontFamilyComboBox}"
-                              Width="100" />
-                    <ComboBox ItemsSource="{Binding FontSizeComboBox}"
+                    <ComboBox x:Name="FontFamilyComboBox"
+                              Width="100" 
+                              SelectionChanged="FontFamilyComboBox_SelectionChanged"/>
+                    <ComboBox x:Name="FontSizeComboBox"
                               Width="50"
-                              IsEditable="True" />
+                              IsEditable="True" 
+                              TextBoxBase.TextChanged="FontSizeComboBox_TextChanged"/>
                     <Button x:Name="SaveButton"
                             Content="Save" />
                 </ToolBar>
             </ToolBarTray>
             <Grid >
                 <StackPanel Background="White">
-                    
-                    <TextBox Height="500"
+                    <RichTextBox rh:RichTextBoxHelper.DocumentXaml="{Binding DocContent}"
+                                 x:Name="RichTest"
+                                 SelectionChanged="RichTest_SelectionChanged"
+                                 TextChanged="RichTest_TextChanged"
+                                 Height="300"/>
+                    <TextBox Height="200"
                              Visibility="{Binding CanSaveButton, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
                              x:Name="ContentTextBox"
                              Text="{Binding ContentTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 

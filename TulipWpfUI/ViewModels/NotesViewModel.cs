@@ -30,12 +30,7 @@ namespace TulipWpfUI.ViewModels
             _events = events;
             _loggedInUserModel = loggedInUserModel;
 
-            var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
-            FontFamilyComboBox = fontFamilies.ToList();
-
-            List<double> fontSizes = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 28, 48, 72 };
-            FontSizeComboBox = fontSizes;
-
+     
             RichText = new RichTextBox();
         }
 
@@ -61,22 +56,7 @@ namespace TulipWpfUI.ViewModels
             AllNotes = new BindingList<NoteModel>(notes);
 
         }
-        private List<double> _fontSizeComboBox;
-
-        public List<double> FontSizeComboBox
-        {
-            get { return _fontSizeComboBox; }
-            set { _fontSizeComboBox = value; }
-        }
-
-
-        private List<FontFamily> _fontFamilyComboBox;
-
-        public List<FontFamily> FontFamilyComboBox
-        {
-            get { return _fontFamilyComboBox; }
-            set { _fontFamilyComboBox = value; }
-        }
+    
 
 
         private BindingList<NotebookModel> _notebooks;
@@ -107,6 +87,20 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        private string _docContent;
+
+        public string DocContent
+        {
+            get { return _docContent; }
+            set
+            {
+                _docContent = value;
+                NotifyOfPropertyChange(() => DocContent);
+            }
+        }
+
+        //public string DocContent { get; set; }
+
         private NoteModel _selectedNote;
 
         public NoteModel SelectedNote
@@ -115,13 +109,18 @@ namespace TulipWpfUI.ViewModels
             set
             {
                 _selectedNote = value;
+                DocContent = File.ReadAllText(SelectedNote.FileLocation);
+                NotifyOfPropertyChange(() => DocContent);
+
                 using (FileStream fileStream = new FileStream(SelectedNote.FileLocation, FileMode.Open))
                 {
                     TextRange range = new TextRange(RichText.Document.ContentStart, RichText.Document.ContentEnd);
                     if (fileStream.Length > 0)
                     {
+                      
                         range.Load(fileStream, DataFormats.Rtf);
                         ContentTextBox = range.Text;
+                        //DocContent = range.Text;
                     }
                    
                 }
@@ -172,12 +171,14 @@ namespace TulipWpfUI.ViewModels
                 return output;
             }
         }
+
         public void SaveButton()
-        {
+        {        
             using (FileStream fileStream = new FileStream(SelectedNote.FileLocation, FileMode.Create))
             {
                 TextRange range = new TextRange(RichText.Document.ContentStart, RichText.Document.ContentEnd);
                 range.Text = ContentTextBox;
+                //range = DocContent;
                 range.Save(fileStream, DataFormats.Rtf);
             }
         }
