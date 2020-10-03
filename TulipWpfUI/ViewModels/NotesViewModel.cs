@@ -23,13 +23,14 @@ namespace TulipWpfUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _loggedInUserModel;
         public int numberOfNotes = 0;
+        public int numberOfNotebooks = 0;
         public NotesViewModel(INotesEndPoint notesEndPoint,
             IEventAggregator events, ILoggedInUserModel loggedInUserModel)
         {
             _notesEndPoint = notesEndPoint;
             _events = events;
             _loggedInUserModel = loggedInUserModel;
- 
+
             RichText = new RichTextBox();
         }
 
@@ -45,6 +46,7 @@ namespace TulipWpfUI.ViewModels
         {
             var notebooks = await _notesEndPoint.GetAll();
             Notebooks = new BindingList<NotebookModel>(notebooks);
+            numberOfNotebooks = Notebooks.Count + 1;
             NotifyOfPropertyChange(() => Notebooks);
         }
 
@@ -55,7 +57,7 @@ namespace TulipWpfUI.ViewModels
             AllNotes = new BindingList<NoteModel>(notes);
 
         }
-   
+
         private BindingList<NotebookModel> _notebooks;
 
         public BindingList<NotebookModel> Notebooks
@@ -101,22 +103,22 @@ namespace TulipWpfUI.ViewModels
                     TextRange range = new TextRange(RichText.Document.ContentStart, RichText.Document.ContentEnd);
                     if (fileStream.Length > 0)
                     {
-                      
+
                         range.Load(fileStream, DataFormats.Rtf);
                         ContentTextBox = range.Text;
                         //DocContent = range.Text;
                     }
-                   
+
                 }
                 NotifyOfPropertyChange(() => SelectedNote);
                 NotifyOfPropertyChange(() => CanSaveButton);
                 NotifyOfPropertyChange(() => ContentTextBox);
             }
         }
-        public RichTextBox RichText { get; set; } 
+        public RichTextBox RichText { get; set; }
 
         private string _contentTextBox;
-        public string ContentTextBox 
+        public string ContentTextBox
         {
             get { return _contentTextBox; }
             set
@@ -125,12 +127,12 @@ namespace TulipWpfUI.ViewModels
                 int amountOfCharacters = ContentTextBox.Length;
                 StatusTextBlock = $"Document length: {amountOfCharacters} characters";
                 NotifyOfPropertyChange(() => ContentTextBox);
-                
-             
+
+
             }
         }
 
-       
+
         private string _statusTextBlock;
 
         public string StatusTextBlock
@@ -157,7 +159,7 @@ namespace TulipWpfUI.ViewModels
         }
 
         public void SaveButton()
-        {        
+        {
             using (FileStream fileStream = new FileStream(SelectedNote.FileLocation, FileMode.Create))
             {
                 TextRange range = new TextRange(RichText.Document.ContentStart, RichText.Document.ContentEnd);
@@ -188,8 +190,8 @@ namespace TulipWpfUI.ViewModels
             // Create Images folder if not exists
             string textFolder = (Directory.CreateDirectory(@$"{projectDirectory}\TextFiles\").ToString());
 
-            string fileLocation = $"{textFolder}{_loggedInUserModel.LastName}{numberOfNotes}.rtf";
-            _ = new FileStream(fileLocation, FileMode.Create);
+            string fileLocation = $"{textFolder}{SelectedNotebook.Id}{_loggedInUserModel.LastName}{numberOfNotes}.rtf";
+            File.Create(fileLocation);
 
             NoteModel note = new NoteModel
             {
@@ -222,9 +224,11 @@ namespace TulipWpfUI.ViewModels
             NotebookModel notebook = new NotebookModel
             {
                 UserId = _loggedInUserModel.Id,
-                Name = "New Notebook"
+                Name = $"New Notebook {numberOfNotebooks}"
             };
             await _notesEndPoint.PostNotebookInfo(notebook);
+
+            await _events.PublishOnUIThreadAsync(new NotesEvent());
         }
     }
 }

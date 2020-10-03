@@ -32,13 +32,18 @@ namespace TulipWpfUI.Helpers
 
                         // Parse the XAML to a document (or use XamlReader.Parse())
                         var xaml = GetDocumentXaml(richTextBox);
+
                         var doc = new FlowDocument();
 
                         var range = new TextRange(doc.ContentStart, doc.ContentEnd);
-                       
-                        range.Load(new MemoryStream(Encoding.UTF8.GetBytes(xaml)),
-                              DataFormats.Rtf);
-                        
+
+                        if (xaml.Length > 0)
+                        {
+                            range.Load(new MemoryStream(Encoding.UTF8.GetBytes(xaml)),
+                       DataFormats.Rtf);
+                        }
+
+
 
                         //Set the document
                         richTextBox.Document = doc;
