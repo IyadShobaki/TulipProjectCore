@@ -29,8 +29,7 @@ namespace TulipWpfUI.ViewModels
             _notesEndPoint = notesEndPoint;
             _events = events;
             _loggedInUserModel = loggedInUserModel;
-
-     
+ 
             RichText = new RichTextBox();
         }
 
@@ -56,9 +55,7 @@ namespace TulipWpfUI.ViewModels
             AllNotes = new BindingList<NoteModel>(notes);
 
         }
-    
-
-
+   
         private BindingList<NotebookModel> _notebooks;
 
         public BindingList<NotebookModel> Notebooks
@@ -87,19 +84,7 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-        private string _docContent;
-
-        public string DocContent
-        {
-            get { return _docContent; }
-            set
-            {
-                _docContent = value;
-                NotifyOfPropertyChange(() => DocContent);
-            }
-        }
-
-        //public string DocContent { get; set; }
+        public string DocContent { get; set; }
 
         private NoteModel _selectedNote;
 
@@ -111,7 +96,6 @@ namespace TulipWpfUI.ViewModels
                 _selectedNote = value;
                 DocContent = File.ReadAllText(SelectedNote.FileLocation);
                 NotifyOfPropertyChange(() => DocContent);
-
                 using (FileStream fileStream = new FileStream(SelectedNote.FileLocation, FileMode.Open))
                 {
                     TextRange range = new TextRange(RichText.Document.ContentStart, RichText.Document.ContentEnd);

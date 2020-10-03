@@ -25,8 +25,6 @@ namespace TulipWpfUI.Views
     /// </summary>
     public partial class NotesView : UserControl
     {
-
-
         public NotesView()
         {
             InitializeComponent();
@@ -35,6 +33,7 @@ namespace TulipWpfUI.Views
 
             List<double> fontSizes = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 28, 48, 72 };
             FontSizeComboBox.ItemsSource = fontSizes;
+         
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
