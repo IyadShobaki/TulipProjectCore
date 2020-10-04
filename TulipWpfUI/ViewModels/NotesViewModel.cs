@@ -190,9 +190,12 @@ namespace TulipWpfUI.ViewModels
             // Create Images folder if not exists
             string textFolder = (Directory.CreateDirectory(@$"{projectDirectory}\TextFiles\").ToString());
 
-            string fileLocation = $"{textFolder}{SelectedNotebook.Id}{_loggedInUserModel.LastName}{numberOfNotes}.rtf";
-            File.Create(fileLocation);
+            string fileLocation = $"{textFolder}{SelectedNotebook.Id}{_loggedInUserModel.FirstName}{_loggedInUserModel.LastName}{numberOfNotes}.rtf";
+            using (FileStream fileStream = File.Create(fileLocation))
+            {
 
+            }
+  
             NoteModel note = new NoteModel
             {
                 NotebookId = SelectedNotebook.Id,

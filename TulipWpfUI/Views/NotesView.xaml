@@ -57,7 +57,7 @@
         </ListBox>
         <DockPanel Grid.Column="2"
                    Grid.Row="1">
-            <ToolBarTray DockPanel.Dock="Top">
+            <ToolBarTray DockPanel.Dock="Top" Visibility="Collapsed">
                 <ToolBar>
                     <ToggleButton x:Name="BoldButton"
                                   Click="BoldButton_Click">
@@ -94,7 +94,7 @@
                                  TextChanged="RichTest_TextChanged"
                                  Height="300"/>
                     <TextBox Height="200"
-                             Visibility="{Binding CanSaveButton, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                             Visibility="Collapsed"
                              x:Name="ContentTextBox"
                              Text="{Binding ContentTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              TextChanged="TextBox_TextChanged"
