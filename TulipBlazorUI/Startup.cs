@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TulipBlazorUI.Data;
+using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
 
 namespace TulipBlazorUI
@@ -33,6 +34,7 @@ namespace TulipBlazorUI
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<ILoggedInUserModel, LoggedInUserModel>();
+            services.AddSingleton<IAPIHelper, APIHelper>();
             services.AddBlazoredSessionStorage();
 
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();

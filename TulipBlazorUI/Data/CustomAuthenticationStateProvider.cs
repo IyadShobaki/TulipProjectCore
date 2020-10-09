@@ -54,6 +54,7 @@ namespace TulipBlazorUI.Data
         public void MarkUserAsLoggedOut()
         {
             _sessionStorage.RemoveItemAsync("email");
+            _sessionStorage.RemoveItemAsync("token");
 
             var identity = new ClaimsIdentity();
 

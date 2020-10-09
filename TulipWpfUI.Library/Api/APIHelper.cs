@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using TulipWpfUI.Library.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace TulipWpfUI.Library.Api
 {
@@ -14,11 +15,14 @@ namespace TulipWpfUI.Library.Api
     {
         private HttpClient _apiClient;
         private readonly ILoggedInUserModel _loggedInUser;
+        private readonly IConfiguration _config;
 
-        public APIHelper(ILoggedInUserModel loggedInUser)
+        public APIHelper(ILoggedInUserModel loggedInUser, IConfiguration config)
         {
+            _config = config;
             InitializeClient();
             _loggedInUser = loggedInUser;
+
         }
 
         public HttpClient ApiClient
@@ -31,7 +35,13 @@ namespace TulipWpfUI.Library.Api
 
         private void InitializeClient()
         {
-            string api = ConfigurationManager.AppSettings["api"];
+            //string api = _config.GetValue<string>("api");
+            string api = ConfigurationManager.AppSettings["api"]; // This is if WPF the UI
+            if (api == null)
+            {
+                api = _config.GetValue<string>("api"); // This is if Blazor the UI
+            }
+
 
             _apiClient = new HttpClient();
             _apiClient.BaseAddress = new Uri(api);

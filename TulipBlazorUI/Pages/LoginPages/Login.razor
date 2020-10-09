@@ -3,6 +3,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject IAPIHelper ApiHelper
 
 <EditForm Model="@user" OnValidSubmit="@ValidateUser">
     <div>
@@ -47,11 +48,28 @@
     private async Task<bool> ValidateUser()
     {
         // Call ApiHelper
-        ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
-            .MarkUserAsAuthenticated(user.Email);
-        NavigationManager.NavigateTo("/");
+        try
+        {
 
-        await sessionStorage.SetItemAsync("email", user.Email);
+            var result = await ApiHelper.Authenticate(user.Email, user.Password);
+
+            // Capture more information about the user
+            await ApiHelper.GetLoggendInUserInfo(result.Access_Token);
+
+            ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
+           .MarkUserAsAuthenticated(user.Email);
+            NavigationManager.NavigateTo("/");
+
+            await sessionStorage.SetItemAsync("email", user.Email);
+            await sessionStorage.SetItemAsync("token", result.Access_Token);
+        }
+        catch (Exception ex)
+        {
+            LoginMessage = "Invalid username or password";
+        }
+
+
+
 
         return await Task.FromResult(true);
     }
