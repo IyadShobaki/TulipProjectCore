@@ -1,0 +1,56 @@
+﻿@page "/signup"
+
+<EditForm Model="@registerModel" OnValidSubmit="@ValidateUser">
+    <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple">Tulip Store Login</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="@FirstName" placeholder="first name" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="@LastName" placeholder="last name" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="@registerModel.Email" placeholder="username" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="@registerModel.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="@registerModel.ConfirmPassword" placeholder="confirm password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Sign Up" />
+        <a href="/login" class="col-3">Login</a>
+    </div>
+</EditForm>
+
+
+@code {
+    private RegisterModel registerModel;
+    private string FirstName { get; set; }
+    private string LastName { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        registerModel = new RegisterModel();
+        return base.OnInitializedAsync();
+    }
+
+    private void ValidateUser()
+    {
+        // Call ApiHelper
+    }
+}

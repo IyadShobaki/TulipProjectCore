@@ -26,3 +26,14 @@ namespace TulipBlazorUI
                 });
     }
 }
+
+// Chained configuration
+// appsettings.json
+// appsettings.<environment>.json
+// App secrets (secrets.json) - only in development mode
+// Environemnt variables
+// Command line arguments
+
+// Azure Key Vault
+
+// secrets.json Location: %APPDATA%\Microsoft\UserSecrets\

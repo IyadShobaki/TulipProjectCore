@@ -4,4 +4,28 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TulipWpfUI.Library\TulipWpfUI.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\images\logo.jpg" />
+    <Resource Include="wwwroot\images\menblazer.jpg" />
+    <Resource Include="wwwroot\images\menbluejeans.jpg" />
+    <Resource Include="wwwroot\images\mendenimjeans.jpg" />
+    <Resource Include="wwwroot\images\mennavy.jpg" />
+    <Resource Include="wwwroot\images\menshort.jpg" />
+    <Resource Include="wwwroot\images\mensimpleshirt.jpg" />
+    <Resource Include="wwwroot\images\womenlettuce.jpg" />
+    <Resource Include="wwwroot\images\womenmaxi.jpg" />
+    <Resource Include="wwwroot\images\womenmidi.jpg" />
+    <Resource Include="wwwroot\images\womenskinny.jpg" />
+    <Resource Include="wwwroot\images\womensuit.jpg" />
+    <Resource Include="wwwroot\images\womenwoven.jpg" />
+  </ItemGroup>
+
 </Project>

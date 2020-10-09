@@ -1,7 +1,38 @@
 ﻿@page "/"
-
+@using Microsoft.Extensions.Logging
+@inject ILogger<Index> log
+@inject ILoggedInUserModel loggedInUser
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+<AuthorizeView>
+    <Authorized>
+        <p>Welcome, @context.User.Identity.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are signed out!!!</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="images/logo.jpg" target="_blank">
+            <img src="images/logo.jpg" />
+        </a>
+
+    </div>
+</div>
+
+@code{
+    // Logging information about the user ILoggedInUserModel (see if singlton DI work well)
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        int id = 25;
+        log.LogInformation("Just opened up the Main page for UserId #{userId}",id);
+
+    }
+
+}

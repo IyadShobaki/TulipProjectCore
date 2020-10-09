@@ -1,0 +1,58 @@
+﻿
+@page "/login"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+<EditForm Model="@user" OnValidSubmit="@ValidateUser">
+    <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple">Tulip Store Login</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="@user.Email" placeholder="Username" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="@user.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+        <a href="/signup" class="col-3">Sign up</a>
+    </div>
+    <br />
+    <div class="col-12 row" style="text-align:left; font-weight:bold">
+        <span class="col-12">@LoginMessage</span>
+    </div>
+</EditForm>
+
+
+@code {
+    private RegisterModel user;
+    public string LoginMessage { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        user = new RegisterModel();
+        return base.OnInitializedAsync();
+    }
+
+    private async Task<bool> ValidateUser()
+    {
+        // Call ApiHelper
+        ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
+            .MarkUserAsAuthenticated(user.Email);
+        NavigationManager.NavigateTo("/");
+
+        await sessionStorage.SetItemAsync("email", user.Email);
+
+        return await Task.FromResult(true);
+    }
+}
