@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TulipWpfUI.Library.Models;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace TulipWpfUI.Library.Api
 {
@@ -115,7 +116,18 @@ namespace TulipWpfUI.Library.Api
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    string res = await response.Content.ReadAsStringAsync();
+                    var values = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(res);
+                    var errors = values.SelectMany(v => v.Values).ToList();
+                    StringBuilder result = new StringBuilder();
+
+                    for (int i = 1; i < errors.Count; i+=2)
+                    {
+                        //errors[i] = errors[i].Substring(errors[i].IndexOf(' ') + 1);
+                        result.Append(errors[i]);
+                    }   
+                    
+                    throw new Exception(result.ToString());
                 }
             }
         }

@@ -33,10 +33,28 @@ namespace TulipDataManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Identity Password Configuration --- Iyad
+            // Required Length = 6, UniqueChars = 1, NonAlphanumeric = true,
+            // Lowercase = true, Uppercase = true, Digit = true
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.Password.RequiredLength = 8;
+            //    options.Password.RequireLowercase = true;
+            //    options.Password.RequireUppercase = true;
+            //    options.Password.RequireDigit = true;
+            //});
+            // or add to AddDefaultIdentity
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireDigit = true;
+            })
                 .AddRoles<IdentityRole>() //-- Iyad
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
