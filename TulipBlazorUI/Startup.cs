@@ -37,6 +37,9 @@ namespace TulipBlazorUI
             services.AddSingleton<IAPIHelper, APIHelper>();
             services.AddBlazoredSessionStorage();
 
+
+            services.AddTransient<IProductEndPoint, ProductEndPoint>();
+
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
         }
 

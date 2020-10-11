@@ -24,6 +24,7 @@ namespace TulipDataManager.Controllers
             _productData = productData;
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ProductModel> Get()
         {
             return _productData.GetProducts();

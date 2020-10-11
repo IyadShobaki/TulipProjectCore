@@ -49,15 +49,24 @@
         <input type="submit" class="form-control col-6 btn btn-primary" value="Sign Up" />
         <a href="/login" class="col-3">Login</a>
     </div>
+    <br/>
     <div class="col-12 row" style="text-align:left; font-weight:bold">
-        <h6 class="col-12" style="color:red">@RegisterMessage</h6>
+        @foreach (var error in RegisterMessage)
+        {
+            if (error.Length > 0)
+            {
+                <h6 class="col-12" style="color:red">* @error</h6>
+            }
+
+        }
+        @*<h6 class="col-12" style="color:red">@RegisterMessage</h6>*@
     </div>
 </EditForm>
 
 
 @code {
     private UserBlazorModel registerModel;
-    public string RegisterMessage { get; set; }
+    public List<string> RegisterMessage = new List<string>();
 
     protected override Task OnInitializedAsync()
     {
@@ -100,7 +109,17 @@
         }
         catch (Exception ex)
         {
-            RegisterMessage = ex.Message.Replace(".","\n");
+            //RegisterMessage = ex.Message.Replace(".","\n");
+            int countPeriod = ex.Message.Count(p => p == '.');
+            if (countPeriod > 2)
+            {
+                RegisterMessage = ex.Message.Split('.').ToList();
+            }
+            else
+            {
+                RegisterMessage = new List<string>();
+                RegisterMessage.Add(ex.Message);
+            }
         }
 
         return await Task.FromResult(true);

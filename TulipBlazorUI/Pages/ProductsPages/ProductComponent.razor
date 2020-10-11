@@ -1,0 +1,19 @@
+﻿
+<div class="card-group">
+    <div class="card" style="width:400px;">
+        <img src="@Product.ProductImage" class="card-img-top" alt="@Product.ProductName"
+             style="width:300px; height:300px; object-fit:contain;  text-align:center;">
+        <div class="card-body">
+            <h5 class="card-title"><strong>@(string.Format("{0:C}", Product.RetailPrice))</strong></h5>
+            <p class="card-text">@Product.Description</p>
+            <p class="card-text"><small class="text-muted">@Product.IsTaxable</small></p>
+        </div>
+    </div>
+</div>
+
+    
+
+@code {
+    [Parameter]
+    public ProductModel Product { get; set; }
+}
