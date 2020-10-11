@@ -1,25 +1,71 @@
 ﻿@page "/"
 @*@using Microsoft.Extensions.Logging
-    @inject ILogger<Index> log
-    @inject ILoggedInUserModel loggedInUser*@
+    @inject ILogger<Index> log*@
+@inject ILoggedInUserModel loggedInUser
 @using TulipBlazorUI.Pages.ProductsPages
 @inject IProductEndPoint _productEndPoint
 
-<h1>Hello, world!</h1>
+
 <AuthorizeView>
     <Authorized>
-        <p>Welcome, @context.User.Identity.Name</p>
+        @*<p>Welcome, @context.User.Identity.Name</p>*@
+        <p>Welcome, @loggedInUser.FirstName</p>
     </Authorized>
     @*<NotAuthorized>
-        <p>You are signed out!!!</p>
-    </NotAuthorized>*@
+            <p>You are signed out!!!</p>
+        </NotAuthorized>*@
 </AuthorizeView>
-<div class="row">
-    @foreach (var product in Products)
-    {
-        <ProductComponent Product="@product"/>
-    }
+@if (Products.Count == 0)
+{
+
+    <section class="section-loader">
+        <div class="loader">
+            <span style="--i:1;"></span>
+            <span style="--i:2;"></span>
+            <span style="--i:3;"></span>
+            <span style="--i:4;"></span>
+            <span style="--i:5;"></span>
+            <span style="--i:6;"></span>
+            <span style="--i:7;"></span>
+            <span style="--i:8;"></span>
+            <span style="--i:9;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+        </div>
+    </section>
+
+}
+else
+{
+<div>
+    <div class="row">
+        <div class="search-box">
+            <input class="search-text" type="text"
+                   @oninput="OnTextChange"
+                   placeholder="Search Product By Name" />
+            <i class="fas fa-search fa-lg" style="color:coral"></i>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 40px">
+        @foreach (var product in Products)
+        {
+            <ProductComponent Product="@product" />
+        }
+    </div>
 </div>
+}
+
+
+
 
 @*<div class="row">
         <div class="col-md-12">
@@ -31,11 +77,19 @@
     </div>*@
 @code{
     public List<ProductModel> Products { get; set; } = new List<ProductModel>();
-
+    public List<ProductModel> OriginalList { get; set; }
     protected override async Task OnInitializedAsync()
     {
         //var products = await _productEndPoint.GetAll();
         //Products = new List<ProductModel>(products);
-        Products = await _productEndPoint.GetAll();
+        var products = await _productEndPoint.GetAll();
+        Products = new List<ProductModel>(products);
+        OriginalList = new List<ProductModel>(products);
+    }
+    private void OnTextChange(ChangeEventArgs args)
+    {
+        Products = new List<ProductModel>(OriginalList);
+        Products = new List<ProductModel>(OriginalList.Where(x => x.Description
+        .ToUpper().Contains(args.Value.ToString().ToUpper())));
     }
 }
