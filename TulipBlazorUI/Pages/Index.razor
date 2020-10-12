@@ -8,10 +8,8 @@
 
 
 <AuthorizeView>
-
     <Authorized>
         @*<p>Welcome, @context.User.Identity.Name</p>*@
-        <p>@context.User.IsInRole("Admin")</p>
         <p>Welcome, @loggedInUser.FirstName</p>
     </Authorized>
     @*<NotAuthorized>
