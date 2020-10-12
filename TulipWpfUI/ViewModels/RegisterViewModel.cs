@@ -164,6 +164,7 @@ namespace TulipWpfUI.ViewModels
                     user.FirstName = FirstName;
                     user.LastName = LastName;
                     user.EmailAddress = Email;
+                    user.CreatedDate = DateTime.Now;
 
                     await _apiHelper.PostUserInfo(user);
 

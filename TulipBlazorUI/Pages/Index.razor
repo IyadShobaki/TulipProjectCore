@@ -1,21 +1,27 @@
 ﻿@page "/"
-@*@using Microsoft.Extensions.Logging
-    @inject ILogger<Index> log*@
+@using Microsoft.Extensions.Logging
+@*@inject ILogger<Index> log*@
 @inject ILoggedInUserModel loggedInUser
 @using TulipBlazorUI.Pages.ProductsPages
 @inject IProductEndPoint _productEndPoint
 
 
+
 <AuthorizeView>
+
     <Authorized>
         @*<p>Welcome, @context.User.Identity.Name</p>*@
+        <p>@context.User.IsInRole("Admin")</p>
         <p>Welcome, @loggedInUser.FirstName</p>
     </Authorized>
     @*<NotAuthorized>
             <p>You are signed out!!!</p>
         </NotAuthorized>*@
 </AuthorizeView>
-@if (Products.Count == 0)
+<AuthorizeView Roles="Admin">
+    <p>Hello, Admin</p>
+</AuthorizeView>
+@if (Products == null)
 {
 
     <section class="section-loader">
@@ -42,7 +48,6 @@
             <span style="--i:20;"></span>
         </div>
     </section>
-
 }
 else
 {
@@ -64,19 +69,8 @@ else
 </div>
 }
 
-
-
-
-@*<div class="row">
-        <div class="col-md-12">
-            <a href="images/logo.jpg" target="_blank">
-                <img src="images/logo.jpg" />
-            </a>
-
-        </div>
-    </div>*@
 @code{
-    public List<ProductModel> Products { get; set; } = new List<ProductModel>();
+    public List<ProductModel> Products { get; set; }
     public List<ProductModel> OriginalList { get; set; }
     protected override async Task OnInitializedAsync()
     {

@@ -40,7 +40,7 @@ namespace TulipWpfUI.ViewModels
 
             base.OnViewLoaded(view);
             await LoadProducts();
-            await GetUserRole();
+            //await GetUserRole();
 
         }
 
@@ -207,13 +207,13 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-        private async Task GetUserRole()
-        {
-            List<string> userRole = await _apiHelper.GetUserId(_loggedInUserModel.Token);
+        //private async Task GetUserRole()
+        //{
+        //    List<string> userRole = await _apiHelper.GetUserId(_loggedInUserModel.Token);
 
-            _loggedInUserModel.Role = userRole[1];
-            NotifyOfPropertyChange(() => IsAdmin);
-        }
+        //    _loggedInUserModel.Role = userRole[1];
+        //    NotifyOfPropertyChange(() => IsAdmin);
+        //}
 
 
         public bool IsAdmin

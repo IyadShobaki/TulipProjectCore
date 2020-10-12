@@ -103,6 +103,8 @@ namespace TulipWpfUI.Library.Api
                     throw new Exception(response.ReasonPhrase);
                 }
             }
+            List<string> UInfor = await GetUserId(token);
+            _loggedInUser.Role = UInfor[1];
         }
 
         public async Task<string> RegisterUser(RegisterModel registerModel)

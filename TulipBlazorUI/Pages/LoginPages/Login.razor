@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 @inject IAPIHelper ApiHelper
+@inject ILoggedInUserModel loggedInUser
 
 <EditForm Model="@user" OnValidSubmit="@ValidateUser">
     <div>
@@ -56,12 +57,13 @@
             // Capture more information about the user
             await ApiHelper.GetLoggendInUserInfo(result.Access_Token);
 
-            ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
-           .MarkUserAsAuthenticated(user.Email);
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
+           .MarkUserAsAuthenticated(loggedInUser);
+
             NavigationManager.NavigateTo("/");
 
-            await sessionStorage.SetItemAsync("email", user.Email);
-            await sessionStorage.SetItemAsync("token", result.Access_Token);
+            //await sessionStorage.SetItemAsync("email", user.Email);
+            //await sessionStorage.SetItemAsync("token", result.Access_Token);
         }
         catch (Exception ex)
         {

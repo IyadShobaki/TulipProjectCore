@@ -21,7 +21,7 @@ namespace TulipDataManager.Controllers
             // Using Postman to display the user id
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string result = "Not Admin";
+            string result = "User";
             //if (RequestContext.Principal.IsInRole("Admin")) //.NET Framework
             if (User.IsInRole("Admin")) // CORE
             {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using TulipWpfUI.Library.Models;
 
 namespace TulipBlazorUI.Data
 {
@@ -39,21 +40,27 @@ namespace TulipBlazorUI.Data
             return await Task.FromResult(new AuthenticationState(user));
         }
 
-        public void MarkUserAsAuthenticated(string emailAddress)
+        //public void MarkUserAsAuthenticated(string emailAddress)
+        public async Task MarkUserAsAuthenticated(ILoggedInUserModel loggedInUser)
         {
-            var identity = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Name, emailAddress),
 
-            }, "apiauth_type");
+           // await _sessionStorage.SetItemAsync("email", user.Email);
+            await _sessionStorage.SetItemAsync("token", loggedInUser.Token);
+            //var identity = new ClaimsIdentity(new[]
+            //{
+            //    new Claim(ClaimTypes.Name, emailAddress),
 
-            var user = new ClaimsPrincipal(identity);
+            //}, "apiauth_type");
 
-            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+            var identity = GetClaimsIdentity(loggedInUser);
+
+            var claimPrincipl = new ClaimsPrincipal(identity);
+
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimPrincipl)));
         }
         public void MarkUserAsLoggedOut()
         {
-            _sessionStorage.RemoveItemAsync("email");
+            //_sessionStorage.RemoveItemAsync("email");
             _sessionStorage.RemoveItemAsync("token");
 
             var identity = new ClaimsIdentity();
@@ -62,5 +69,22 @@ namespace TulipBlazorUI.Data
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
+        private ClaimsIdentity GetClaimsIdentity(ILoggedInUserModel user)
+        {
+            var claimsIdentity = new ClaimsIdentity();
+
+            if (user.EmailAddress != null)
+            {
+                claimsIdentity = new ClaimsIdentity(new[]
+                                {
+                                    new Claim(ClaimTypes.Name, user.EmailAddress),
+                                    new Claim(ClaimTypes.Role, user.Role)
+                                    
+                                }, "apiauth_type");
+            }
+
+            return claimsIdentity;
+        }
+
     }
 }
