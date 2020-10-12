@@ -1,20 +1,62 @@
 ﻿
-<div class="card-group">
-    <div class="card" style="width:400px;">
-        <a href="@Product.ProductImage" target="_blank">
-            <img src="@Product.ProductImage" class="card-img-top" alt="@Product.ProductName"
-                 style="width:300px; height:300px; object-fit:contain;  text-align:center;">
-        </a>
-        <div class="card-body">
-            <h5 class="card-title"><strong>@(string.Format("{0:C}", Product.RetailPrice))</strong></h5>
-            <p class="card-text">@Product.Description</p>
-            <p class="card-text"><small class="text-muted">@Product.IsTaxable</small></p>
+<div class="card" style="width:400px;">
+    <a href="@Product.ProductImage" target="_blank">
+        <img src="@Product.ProductImage" class="card-img-top" alt="@Product.ProductName"
+             style="width: 400px; height: 300px; object-fit: contain; text-align: center;">
+    </a>
+    <div class="card-body text-center">
+        <h5 class="card-title"><strong>@(string.Format("{0:C}", Product.RetailPrice))</strong></h5>
+        <p class="card-text">@Product.Description</p>
+        <p class="card-text"><small class="text-muted">@Product.QuantityInStock left in stock / @taxable</small></p>
+        <div class="row">
+            <div class="col">
+                <input type="number" min="0" max="@Product.QuantityInStock" placeholder="Qty"
+                       style="width:50%; text-align:center; margin-bottom:20px" @bind="Quantity" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-primary" @onclick="RemoveFromCart"
+                        style="width:100%;">
+                    Remove From Cart
+                </button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary" @onclick="AddToCart"
+                        style="width:100%;">
+                    Add To Cart
+                </button>
+            </div>
         </div>
     </div>
+
 </div>
 
 
 @code {
     [Parameter]
+    public EventCallback<ProductModel> OnAddToCart { get; set; }
+    [Parameter]
+    public EventCallback<ProductModel> OnRemoveFromCart { get; set; }
+    [Parameter]
+    public EventCallback<int> OnAdd { get; set; }
+    [Parameter]
     public ProductModel Product { get; set; }
+    public int Quantity { get; set; }
+    private string taxable;
+
+    protected override Task OnParametersSetAsync()
+    {
+        taxable = Product.IsTaxable ? "Is Taxable" : "Tax-Free";
+        return base.OnParametersSetAsync();
+    }
+    private void AddToCart()
+    {
+        OnAdd.InvokeAsync(Quantity);
+        OnAddToCart.InvokeAsync(Product);
+    }
+    private void RemoveFromCart()
+    {
+        OnRemoveFromCart.InvokeAsync(Product);
+    }
 }

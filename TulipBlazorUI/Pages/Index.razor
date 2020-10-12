@@ -49,27 +49,32 @@
 }
 else
 {
-<div>
-    <div class="row">
-        <div class="search-box">
-            <input class="search-text" type="text"
-                   @oninput="OnTextChange"
-                   placeholder="Search Product By Name" />
-            <i class="fas fa-search fa-lg" style="color:coral"></i>
+    <div>
+        <div class="row">
+            <div class="search-box">
+                <input class="search-text" type="text"
+                       @oninput="OnTextChange"
+                       placeholder="Search Product By Name" />
+                <i class="fas fa-search fa-lg" style="color:coral"></i>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 40px">
+            @foreach (var product in Products)
+            {
+                <ProductComponent Product="@product" OnAddToCart="HandleAddToCart"
+                                  OnRemoveFromCart="HandleRemoveFromCart"
+                                  OnAdd="HandleQuantity"/>
+
+            }
         </div>
     </div>
-    <div class="row" style="margin-top: 40px">
-        @foreach (var product in Products)
-        {
-            <ProductComponent Product="@product" />
-        }
-    </div>
-</div>
 }
 
 @code{
     public List<ProductModel> Products { get; set; }
     public List<ProductModel> OriginalList { get; set; }
+    public List<CartModel> Cart { get; set; } = new List<CartModel>();
+    public CartModel cartModel { get; set; } = new CartModel();
     protected override async Task OnInitializedAsync()
     {
         //var products = await _productEndPoint.GetAll();
@@ -84,4 +89,17 @@ else
         Products = new List<ProductModel>(OriginalList.Where(x => x.Description
         .ToUpper().Contains(args.Value.ToString().ToUpper())));
     }
+    private void HandleAddToCart(ProductModel product)
+    {
+        cartModel.Product = product;
+    }
+    private void HandleQuantity(int quantity)
+    {
+        cartModel.Quantity = quantity;
+    }
+    private void HandleRemoveFromCart(ProductModel product)
+    {
+
+    }
+
 }

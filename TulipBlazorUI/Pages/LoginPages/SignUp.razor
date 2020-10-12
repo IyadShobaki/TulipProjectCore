@@ -101,10 +101,11 @@
                 user.FirstName = registerModel.FirstName;
                 user.LastName = registerModel.LastName;
                 user.EmailAddress = registerModel.EmailAddress;
+                user.CreatedDate = DateTime.Now;
 
                 await ApiHelper.PostUserInfo(user);
             }
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/login");
 
         }
         catch (Exception ex)
