@@ -1,0 +1,24 @@
+﻿@page "/revieworder"
+@inject ISessionStorageService sessionStorage
+<h3>Order Summary</h3>
+
+
+<div class="col-12">
+    @foreach (var c in Cart)
+    {
+        <p>@c.Quantity</p>
+        <p>@c.Product.Description</p>
+    }
+
+</div>
+@code { 
+
+    public List<CartModel> Cart { get; set; } = new List<CartModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cart = await sessionStorage.GetItemAsync<List<CartModel>>("cart");
+        //return base.OnInitializedAsync();
+    }
+
+}

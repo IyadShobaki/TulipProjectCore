@@ -4,6 +4,8 @@
 @inject ILoggedInUserModel loggedInUser
 @using TulipBlazorUI.Pages.ProductsPages
 @inject IProductEndPoint _productEndPoint
+@inject NavigationManager navigationManager
+@inject ISessionStorageService sessionStorage
 
 
 
@@ -21,7 +23,6 @@
 </AuthorizeView>
 @if (Products == null)
 {
-
     <section class="section-loader">
         <div class="loader">
             <span style="--i:1;"></span>
@@ -51,11 +52,23 @@ else
 {
     <div>
         <div class="row">
-            <div class="search-box">
-                <input class="search-text" type="text"
-                       @oninput="OnTextChange"
-                       placeholder="Search Product By Name" />
-                <i class="fas fa-search fa-lg" style="color:coral"></i>
+            <div class="col-5">
+                <div class="search-box">
+                    <input class="search-text" type="text"
+                           @oninput="OnTextChange"
+                           placeholder="Search Product By Name" />
+                    <i class="fas fa-search fa-lg" style="color:coral"></i>
+                  
+                </div>
+            </div>
+            <div class="col-6">
+
+            </div>
+            <div class="col-1"> 
+                <a href="#" @onclick="ReviewOrderBtn">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <span class='badge badge-warning' id='lblCartCount'>@Cart.Count</span>
+                </a>
             </div>
         </div>
         <div class="row" style="margin-top: 40px">
@@ -63,7 +76,7 @@ else
             {
                 <ProductComponent Product="@product" OnAddToCart="HandleAddToCart"
                                   OnRemoveFromCart="HandleRemoveFromCart"
-                                  OnAdd="HandleQuantity"/>
+                                  OnAdd="HandleQuantity" />
 
             }
         </div>
@@ -71,10 +84,12 @@ else
 }
 
 @code{
+
     public List<ProductModel> Products { get; set; }
     public List<ProductModel> OriginalList { get; set; }
     public List<CartModel> Cart { get; set; } = new List<CartModel>();
-    public CartModel cartModel { get; set; } = new CartModel();
+    public CartModel cartModel { get; set; }
+    private int quantityPurchased;
     protected override async Task OnInitializedAsync()
     {
         //var products = await _productEndPoint.GetAll();
@@ -91,15 +106,38 @@ else
     }
     private void HandleAddToCart(ProductModel product)
     {
-        cartModel.Product = product;
+        int index = Cart.FindIndex(x => x.Product.Id.Equals(product.Id));
+        if (index < 0)
+        {
+            cartModel = new CartModel();
+            cartModel.Product = product;
+            cartModel.Quantity = quantityPurchased;
+            Cart.Add(cartModel);
+        }
+        else
+        {
+            Cart[index].Quantity = quantityPurchased;
+        }
+
     }
     private void HandleQuantity(int quantity)
     {
-        cartModel.Quantity = quantity;
+        quantityPurchased = quantity;
     }
     private void HandleRemoveFromCart(ProductModel product)
     {
 
-    }
+        int index = Cart.FindIndex(x => x.Product.Id.Equals(product.Id));
+        //int index = Cart.IndexOf()
+        if (index >= 0)
+        {
+            Cart.RemoveAt(index);
+        }
 
+    }
+    private async void ReviewOrderBtn()
+    {
+        await sessionStorage.SetItemAsync("cart", Cart);
+        navigationManager.NavigateTo("/revieworder");
+    }
 }
