@@ -1,24 +1,164 @@
 ﻿@page "/revieworder"
 @inject ISessionStorageService sessionStorage
-<h3>Order Summary</h3>
+@inject IConfigHelper configHelper
 
+<h3 style="text-align:center; margin-bottom:20px; font-weight:bold"><span>Order Summary</span></h3>
 
 <div class="col-12">
-    @foreach (var c in Cart)
-    {
-        <p>@c.Quantity</p>
-        <p>@c.Product.Description</p>
-    }
+    <table class="table table-striped" style="text-align:center">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Description</th>
+                <th scope="col">Image</th>
+                <th scope="col">Tax</th>
+                <th scope="col">SubToal</th>
+                <th scope="col" >Total</th>
+                <th scope="col">Edit/Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var c in Cart)
+        {
+            number++;
+        <tr>
+            <th scope="row">@number</th>
+            <td>@c.Quantity</td>
+            <td>@c.Product.Description</td>
+            <td>
+                <img src="@c.Product.ProductImage"
+                     style="width: 90px; height: 70px; object-fit: contain; text-align: center;" />
+            </td>
+            <td>@string.Format("{0:C}", ItemTax[number - 1])</td>
+            <td>@string.Format("{0:C}", ItemSubTotal[number - 1])</td>
+            <td>@string.Format("{0:C}", ItemTotal[number - 1])</td>
+            <td><a href="#" @onclick="(() => DecreaseItemQuantity(number-1))" class="oi oi-minus"/>/
+            <a href="#" @onclick="(() => IncreaseItemQuantity(number -1))" class="oi oi-plus"/> ---
+            <a href="#" @onclick="(() => DeleteItem(number -1))" class="oi oi-x"/></td>
 
+        </tr>
+        }*@
+            @for (int i = 0; i < Cart.Count; i++)
+            {
+                <tr>
+                    <th scope="row">@(i+1)</th>
+                    <td>@Cart[i].Quantity</td>
+                    <td>@Cart[i].Product.Description</td>
+                    <td>
+                        <img src="@Cart[i].Product.ProductImage"
+                             style="width: 90px; height: 70px; object-fit: contain; text-align: center;" />
+                    </td>
+                    <td>@string.Format("{0:C}", ItemTax[i])</td>
+                    <td>@string.Format("{0:C}", ItemSubTotal[i])</td>
+                    <td>@string.Format("{0:C}", ItemTotal[i])</td>
+                    <td >
+                        <a href="#" class="oi oi-minus" />/
+                        <a href="#" class="oi oi-plus" /> |
+                        <a href="#" class="oi oi-x" />
+                    </td>
+
+                </tr>
+            }
+           
+        </tbody>
+        @if (Cart.Count > 0)
+        {
+            <tfoot class="" style="font-weight:bold">
+                <tr>
+                    
+                    <td >Total Items:</td>
+                    <td >@totalItems</td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                    <td colspan="1" style="text-align:right">Tax:</td>
+                    <td colspan="1">@string.Format("{0:C}", totalTax)</td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td colspan="1" style="text-align:right">SubTotal:</td>
+                    <td colspan="1">@string.Format("{0:C}", totalSubTotal)</td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="1" style="text-align:right">Total:</td>
+                    <td colspan="1" >@string.Format("{0:C}", totalTotal)</td>
+                </tr>
+            </tfoot>
+        }
+
+    </table>
 </div>
-@code { 
+@code {
 
+    //private int number = 0;
     public List<CartModel> Cart { get; set; } = new List<CartModel>();
+    public List<decimal> ItemTax { get; set; } = new List<decimal>();
+    public List<decimal> ItemSubTotal { get; set; } = new List<decimal>();
+    public List<decimal> ItemTotal { get; set; } = new List<decimal>();
+    private decimal totalTax = 0;
+    private decimal totalSubTotal = 0;
+    private decimal totalTotal = 0;
+    private int totalItems = 0;
 
     protected override async Task OnInitializedAsync()
     {
         Cart = await sessionStorage.GetItemAsync<List<CartModel>>("cart");
+        CalcualteCartItems(Cart);
         //return base.OnInitializedAsync();
+    }
+
+    private void CalcualteCartItems(List<CartModel> cart)
+    {
+        foreach (var c in cart)
+        {
+            totalItems += c.Quantity;
+            decimal tax = CalculateTax(c.Product.RetailPrice, c.Quantity);
+            totalTax += tax;
+            ItemTax.Add(tax);
+            decimal subTotal = CalculateSubTotal(c.Product.RetailPrice, c.Quantity);
+            ItemSubTotal.Add(subTotal);
+            totalSubTotal += subTotal;
+            ItemTotal.Add(tax + subTotal);
+            totalTotal += (tax + subTotal);
+        }
+    }
+
+    private decimal CalculateSubTotal(decimal itemRetailPrice, int quantityPurchased)
+    {
+        decimal subTotal = itemRetailPrice * quantityPurchased;
+        return subTotal;
+    }
+
+    private decimal CalculateTax(decimal itemRetailPrice, int quantityPurchased)
+    {
+
+        decimal taxRate = configHelper.GetTaxRate() / 100;
+
+        decimal taxAmount = itemRetailPrice * quantityPurchased * taxRate;
+
+        return taxAmount;
+    }
+
+    private void DecreaseItemQuantity(int index)
+    {
+        if (Cart[index].Quantity > 1)
+        {
+            Cart[index].Quantity--;
+        }
+
+    }
+    private void IncreaseItemQuantity(int index)
+    {
+        if (Cart[index].Quantity < Cart[index].Product.QuantityInStock)
+        {
+            Cart[index].Quantity++;
+        }
+    }
+    private void DeleteItem(int index)
+    {
+        Cart.RemoveAt(index);
     }
 
 }
