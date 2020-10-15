@@ -1,31 +1,41 @@
 ﻿@inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILoggedInUserModel loggedInUser
+@inject IAPIHelper apiHelper
+@inject NavigationManager navigationManager
 
 <div class="sidebar">
     <NavMenu />
 </div>
 
 <div class="main">
-    <div class="top-row px-4 fixed-top" >
+    <div class="top-row px-4 fixed-top">
         <AuthorizeView>
             <Authorized>
                 <a href="/" @onclick="(() => Logout())">Logout</a>
             </Authorized>
             <NotAuthorized>
-                <a href="/login">Login</a>
+                @if (navigationManager.Uri == "https://localhost:44314/revieworder")
+                {
+                    <a href="/login/1">Login</a>
+                }
+                else
+                {
+                    <a href="/login">Login</a>
+                }
             </NotAuthorized>
         </AuthorizeView>
-
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
     </div>
     <div class="content px-4">
         @Body
     </div>
 </div>
-@code{ 
+@code{
     public void Logout()
     {
         ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
             .MarkUserAsLoggedOut();
+        loggedInUser.ResetUserModel();
+        apiHelper.LogOffUser();
     }
 }

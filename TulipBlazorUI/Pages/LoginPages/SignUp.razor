@@ -1,7 +1,8 @@
 ﻿@page "/signup"
+@page "/signup/{Number:int}"
 @using TulipBlazorUI.Models
-@inject NavigationManager NavigationManager
-@inject IAPIHelper ApiHelper
+@inject NavigationManager navigationManager
+@inject IAPIHelper apiHelper
 
 <EditForm Model="@registerModel" OnValidSubmit="@RegisterUser">
     <DataAnnotationsValidator />
@@ -47,9 +48,17 @@
     <div class="col-12 row">
         <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Sign Up" />
-        <a href="/login" class="col-3">Login</a>
+        @*<a href="/login" class="col-3">Login</a>*@
+        @if (navigationManager.Uri == "https://localhost:44314/signup/1")
+        {
+            <a href="/login/1" class="col-3">Login</a>
+        }
+        else
+        {
+            <a href="/login" class="col-3">Login</a>
+        }
     </div>
-    <br/>
+    <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">
         @foreach (var error in RegisterMessage)
         {
@@ -65,6 +74,8 @@
 
 
 @code {
+    [Parameter]
+    public int Number { get; set; }
     private UserBlazorModel registerModel;
     public List<string> RegisterMessage = new List<string>();
 
@@ -88,24 +99,33 @@
                 ConfirmPassword = registerModel.ConfirmPassword
             };
 
-            string createSuccess = await ApiHelper.RegisterUser(register);
+            string createSuccess = await apiHelper.RegisterUser(register);
 
             if (createSuccess == "success")
             {
-                var result = await ApiHelper.Authenticate(registerModel.EmailAddress,
+                var result = await apiHelper.Authenticate(registerModel.EmailAddress,
                     registerModel.Password);
 
                 UserModel user = new UserModel();
-                List<string> UInfor = await ApiHelper.GetUserId(result.Access_Token);
+                List<string> UInfor = await apiHelper.GetUserId(result.Access_Token);
                 user.Id = UInfor[0];
                 user.FirstName = registerModel.FirstName;
                 user.LastName = registerModel.LastName;
                 user.EmailAddress = registerModel.EmailAddress;
                 user.CreatedDate = DateTime.Now;
 
-                await ApiHelper.PostUserInfo(user);
+                await apiHelper.PostUserInfo(user);
             }
-            NavigationManager.NavigateTo("/login");
+
+
+            if (navigationManager.Uri == "https://localhost:44314/signup/1")
+            {
+                navigationManager.NavigateTo("/login/1");
+            }
+            else
+            {
+                navigationManager.NavigateTo("/login");
+            }
 
         }
         catch (Exception ex)

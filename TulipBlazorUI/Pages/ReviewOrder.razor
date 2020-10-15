@@ -1,6 +1,8 @@
 ﻿@page "/revieworder"
 @inject ISessionStorageService sessionStorage
 @inject IConfigHelper configHelper
+@inject ILoggedInUserModel loggedInUser
+@inject NavigationManager navigationManager
 
 <h3 style="text-align:center; margin-bottom:20px; font-weight:bold"><span>Order Summary</span></h3>
 
@@ -13,65 +15,24 @@
                 <th scope="col">Quantity</th>
                 <th scope="col">SubToal</th>
                 <th scope="col">Tax</th>
-                <th scope="col" >Total</th>
+                <th scope="col">Total</th>
                 <th scope="col">Change Quantity | Delete</th>
             </tr>
         </thead>
         <tbody>
-            @*@foreach (var c in Cart)
-        {
-            number++;
-        <tr>
-            <th scope="row">@number</th>
-            <td>@c.Quantity</td>
-            <td>@c.Product.Description</td>
-            <td>
-                <img src="@c.Product.ProductImage"
-                     style="width: 90px; height: 70px; object-fit: contain; text-align: center;" />
-            </td>
-            <td>@string.Format("{0:C}", ItemTax[number - 1])</td>
-            <td>@string.Format("{0:C}", ItemSubTotal[number - 1])</td>
-            <td>@string.Format("{0:C}", ItemTotal[number - 1])</td>
-            <td><a href="#" @onclick="(() => DecreaseItemQuantity(number-1))" class="oi oi-minus"/>/
-            <a href="#" @onclick="(() => IncreaseItemQuantity(number -1))" class="oi oi-plus"/> ---
-            <a href="#" @onclick="(() => DeleteItem(number -1))" class="oi oi-x"/></td>
-
-        </tr>
-        }*@
-            @*@for (int i = 0; i < Cart.Count; i++)
+            @foreach (var c in Cart)
             {
-                <tr>
-                    <th scope="row">@(i+1)</th>
-                    <td>@Cart[i].Quantity</td>
-                    <td>@Cart[i].Product.Description</td>
-                    <td>
-                        <img src="@Cart[i].Product.ProductImage"
-                             style="width: 90px; height: 70px; object-fit: contain; text-align: center;" />
-                    </td>
-                    <td>@string.Format("{0:C}", ItemTax[i])</td>
-                    <td>@string.Format("{0:C}", ItemSubTotal[i])</td>
-                    <td>@string.Format("{0:C}", ItemTotal[i])</td>
-                    <td >
-                        <a href="#" class="oi oi-minus" />/
-                        <a href="#" class="oi oi-plus" /> |
-                        <a href="#" class="oi oi-x" />
-                    </td>
-
-                </tr>
-            }*@
-           @foreach (var c in Cart)
-           {
-               <CartItemComponent CartItem="@c" OnRemoveCartItem="HandleDeleteItem"
-                                  OnChangeItemQuantity="HandleQuantityChange"/>
-           }
+                <CartItemComponent CartItem="@c" OnRemoveCartItem="HandleDeleteItem"
+                                   OnChangeItemQuantity="HandleQuantityChange" />
+            }
         </tbody>
         @if (Cart.Count > 0)
         {
             <tfoot class="" style="font-weight:bold">
                 <tr>
-                    
+
                     <td colspan="2" style="text-align:right">Total Items:</td>
-                    <td >@totalItems</td>
+                    <td>@totalItems</td>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
@@ -86,9 +47,34 @@
                 <tr style="background-color:aqua">
                     <td colspan="4"></td>
                     <td colspan="1" style="text-align:right;">Total:</td>
-                    <td colspan="1" >@string.Format("{0:C}", totalTotal)</td>
+                    <td colspan="1">@string.Format("{0:C}", totalTotal)</td>
                     <td colspan="1"></td>
                 </tr>
+                <AuthorizeView>
+                    <Authorized>
+                        <tr class="thead-light">
+                            <td colspan="4"></td>
+                            <td colspan="3">
+                                <button class="btn btn-primary" @onclick="Checkout"
+                                        style="width:30%;">
+                                    Check Out
+                                </button>
+                            </td>
+                        </tr>
+                    </Authorized>
+                    <NotAuthorized>
+                        <tr class="thead-light">
+                            <td colspan="4"></td>
+                            <td colspan="3">
+                                <button class="btn btn-primary" @onclick="Checkout"
+                                        style="width:30%;">
+                                    Sign In To Check Out
+                                </button>
+                            </td>
+                        </tr>
+                    </NotAuthorized>
+                </AuthorizeView>
+
             </tfoot>
         }
 
@@ -96,11 +82,7 @@
 </div>
 @code {
 
-    //private int number = 0;
     public List<CartModel> Cart { get; set; } = new List<CartModel>();
-    //public List<decimal> ItemTax { get; set; } = new List<decimal>();
-    //public List<decimal> ItemSubTotal { get; set; } = new List<decimal>();
-    //public List<decimal> ItemTotal { get; set; } = new List<decimal>();
     private decimal totalTax = 0;
     private decimal totalSubTotal = 0;
     private decimal totalTotal = 0;
@@ -110,7 +92,6 @@
     {
         Cart = await sessionStorage.GetItemAsync<List<CartModel>>("cart");
         CalcualteCartItems(Cart);
-        //return base.OnInitializedAsync();
     }
 
     private void CalcualteCartItems(List<CartModel> cart)
@@ -124,11 +105,8 @@
             totalItems += c.Quantity;
             decimal tax = CalculateTax(c.Product.RetailPrice, c.Quantity);
             totalTax += tax;
-            // ItemTax.Add(tax);
             decimal subTotal = CalculateSubTotal(c.Product.RetailPrice, c.Quantity);
-            //ItemSubTotal.Add(subTotal);
             totalSubTotal += subTotal;
-            //ItemTotal.Add(tax + subTotal);
             totalTotal += (tax + subTotal);
         }
     }
@@ -158,6 +136,22 @@
         int index = Cart.IndexOf(cartItem);
         Cart[index].Quantity = cartItem.Quantity;
         CalcualteCartItems(Cart);
+    }
+    private async void Checkout()
+    {
+        await sessionStorage.SetItemAsync("cart", Cart);
+        await sessionStorage.SetItemAsync("total", totalTotal);
+
+
+        if (string.IsNullOrEmpty(loggedInUser.EmailAddress))
+        {
+            navigationManager.NavigateTo("/login/1");
+        }
+        else
+        {
+            navigationManager.NavigateTo("/checkout");
+        }
+
     }
 
 }

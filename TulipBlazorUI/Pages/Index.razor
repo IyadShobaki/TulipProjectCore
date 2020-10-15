@@ -91,6 +91,11 @@ else
     private int quantityPurchased;
     protected override async Task OnInitializedAsync()
     {
+        var c = await sessionStorage.GetItemAsync<List<CartModel>>("cart");
+        if (c?.Count > 0)
+        {
+            Cart = new List<CartModel>(c);
+        }
         //var products = await _productEndPoint.GetAll();
         //Products = new List<ProductModel>(products);
         var products = await _productEndPoint.GetAll();

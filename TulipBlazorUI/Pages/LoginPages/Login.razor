@@ -1,9 +1,10 @@
 ﻿
 @page "/login"
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager NavigationManager
+@page "/login/{Number:int}"
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManager
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
-@inject IAPIHelper ApiHelper
+@inject IAPIHelper apiHelper
 @inject ILoggedInUserModel loggedInUser
 
 <EditForm Model="@user" OnValidSubmit="@ValidateUser">
@@ -27,7 +28,15 @@
     <div class="col-12 row">
         <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
-        <a href="/signup" class="col-3">Sign up</a>
+        @*<a href="/signup" class="col-3">Sign up</a>*@
+        @if (navigationManager.Uri == "https://localhost:44314/login/1")
+        {
+            <a href="/signup/1" class="col-3">Sign up</a>
+        }
+        else
+        {
+            <a href="/signup" class="col-3">Sign up</a>
+        }
     </div>
     <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">
@@ -37,12 +46,17 @@
 
 
 @code {
+    [Parameter]
+    public int Number { get; set; }
     private RegisterModel user;
     public string LoginMessage { get; set; }
 
     protected override Task OnInitializedAsync()
     {
         user = new RegisterModel();
+        user.Email = "iyad@shobaki.com";
+        user.Password = "Pwd12345.";
+
         return base.OnInitializedAsync();
     }
 
@@ -52,20 +66,28 @@
         try
         {
 
-            var result = await ApiHelper.Authenticate(user.Email, user.Password);
+            var result = await apiHelper.Authenticate(user.Email, user.Password);
 
             // Capture more information about the user
-            await ApiHelper.GetLoggendInUserInfo(result.Access_Token);
+            await apiHelper.GetLoggendInUserInfo(result.Access_Token);
 
-            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
+            await ((CustomAuthenticationStateProvider)authenticationStateProvider)
            .MarkUserAsAuthenticated(loggedInUser);
 
-            NavigationManager.NavigateTo("/");
+            if (Number == 0)
+            {
+
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                navigationManager.NavigateTo("/revieworder");
+            }
 
             //await sessionStorage.SetItemAsync("email", user.Email);
             //await sessionStorage.SetItemAsync("token", result.Access_Token);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             LoginMessage = "Invalid username or password";
         }
