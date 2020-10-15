@@ -1,0 +1,74 @@
+﻿@inject IConfigHelper configHelper
+
+<tr>
+    <td>
+        <img src="@CartItem.Product.ProductImage"
+             style="width: 90px; height: 70px; object-fit: contain; text-align: center;" />
+    </td>
+    <td>@CartItem.Product.Description</td>
+    <td>@CartItem.Quantity</td>
+    <td>@string.Format("{0:C}", itemSubTotal)</td>
+    <td>@string.Format("{0:C}", itemTax)</td>
+    <td>@string.Format("{0:C}", itemTotal)</td>
+    <td>
+        <button class="oi oi-minus btn btn-primary btn-sm" @onclick="DecreaseQuantity"/> | 
+        <button class="oi oi-plus btn btn-primary btn-sm" @onclick="IncreaseQuantity"/>  | 
+        <button class="oi oi-x btn btn-danger btn-sm" @onclick="DeleteItem" />
+    </td>
+
+</tr>
+@code {
+    [Parameter]
+    public EventCallback<CartModel> OnRemoveCartItem { get; set; }
+    [Parameter]
+    public EventCallback<CartModel> OnChangeItemQuantity { get; set; }
+    [Parameter]
+    public CartModel CartItem { get; set; }
+    private decimal itemTax;
+    private decimal itemSubTotal;
+    private decimal itemTotal;
+
+    protected override void OnParametersSet()
+    {
+        itemSubTotal = CalculateSubTotal(CartItem.Product.RetailPrice, CartItem.Quantity);
+        itemTax = CalculateTax(CartItem.Product.RetailPrice, CartItem.Quantity);
+        itemTotal = itemSubTotal + itemTax;
+        base.OnParametersSet();
+    }
+
+    private decimal CalculateSubTotal(decimal itemRetailPrice, int quantityPurchased)
+    {
+        decimal subTotal = itemRetailPrice * quantityPurchased;
+        return subTotal;
+    }
+
+    private decimal CalculateTax(decimal itemRetailPrice, int quantityPurchased)
+    {
+
+        decimal taxRate = configHelper.GetTaxRate() / 100;
+
+        decimal taxAmount = itemRetailPrice * quantityPurchased * taxRate;
+
+        return taxAmount;
+    }
+    public void DeleteItem()
+    {
+        OnRemoveCartItem.InvokeAsync(CartItem);
+    }
+    public void DecreaseQuantity()
+    {
+        if (CartItem.Quantity > 1)
+        {
+            CartItem.Quantity--;
+            OnChangeItemQuantity.InvokeAsync(CartItem);
+        }
+    }
+    public void IncreaseQuantity()
+    {
+        if (CartItem.Quantity < CartItem.Product.QuantityInStock)
+        {
+            CartItem.Quantity++;
+            OnChangeItemQuantity.InvokeAsync(CartItem);
+        }
+    }
+}

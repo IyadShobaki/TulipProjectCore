@@ -8,14 +8,13 @@
     <table class="table table-striped" style="text-align:center">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Description</th>
                 <th scope="col">Image</th>
-                <th scope="col">Tax</th>
+                <th scope="col">Description</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">SubToal</th>
+                <th scope="col">Tax</th>
                 <th scope="col" >Total</th>
-                <th scope="col">Edit/Delete</th>
+                <th scope="col">Change Quantity | Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -39,7 +38,7 @@
 
         </tr>
         }*@
-            @for (int i = 0; i < Cart.Count; i++)
+            @*@for (int i = 0; i < Cart.Count; i++)
             {
                 <tr>
                     <th scope="row">@(i+1)</th>
@@ -59,31 +58,36 @@
                     </td>
 
                 </tr>
-            }
-           
+            }*@
+           @foreach (var c in Cart)
+           {
+               <CartItemComponent CartItem="@c" OnRemoveCartItem="HandleDeleteItem"
+                                  OnChangeItemQuantity="HandleQuantityChange"/>
+           }
         </tbody>
         @if (Cart.Count > 0)
         {
             <tfoot class="" style="font-weight:bold">
                 <tr>
                     
-                    <td >Total Items:</td>
+                    <td colspan="2" style="text-align:right">Total Items:</td>
                     <td >@totalItems</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="1" style="text-align:right">SubTotal:</td>
+                    <td colspan="1">@string.Format("{0:C}", totalSubTotal)</td>
                 </tr>
                 <tr>
                     <td colspan="3"></td>
                     <td colspan="1" style="text-align:right">Tax:</td>
                     <td colspan="1">@string.Format("{0:C}", totalTax)</td>
                 </tr>
-                <tr>
+                <tr style="background-color:aqua">
                     <td colspan="4"></td>
-                    <td colspan="1" style="text-align:right">SubTotal:</td>
-                    <td colspan="1">@string.Format("{0:C}", totalSubTotal)</td>
-                </tr>
-                <tr>
-                    <td colspan="5"></td>
-                    <td colspan="1" style="text-align:right">Total:</td>
+                    <td colspan="1" style="text-align:right;">Total:</td>
                     <td colspan="1" >@string.Format("{0:C}", totalTotal)</td>
+                    <td colspan="1"></td>
                 </tr>
             </tfoot>
         }
@@ -94,9 +98,9 @@
 
     //private int number = 0;
     public List<CartModel> Cart { get; set; } = new List<CartModel>();
-    public List<decimal> ItemTax { get; set; } = new List<decimal>();
-    public List<decimal> ItemSubTotal { get; set; } = new List<decimal>();
-    public List<decimal> ItemTotal { get; set; } = new List<decimal>();
+    //public List<decimal> ItemTax { get; set; } = new List<decimal>();
+    //public List<decimal> ItemSubTotal { get; set; } = new List<decimal>();
+    //public List<decimal> ItemTotal { get; set; } = new List<decimal>();
     private decimal totalTax = 0;
     private decimal totalSubTotal = 0;
     private decimal totalTotal = 0;
@@ -111,16 +115,20 @@
 
     private void CalcualteCartItems(List<CartModel> cart)
     {
+        totalTax = 0;
+        totalSubTotal = 0;
+        totalTotal = 0;
+        totalItems = 0;
         foreach (var c in cart)
         {
             totalItems += c.Quantity;
             decimal tax = CalculateTax(c.Product.RetailPrice, c.Quantity);
             totalTax += tax;
-            ItemTax.Add(tax);
+            // ItemTax.Add(tax);
             decimal subTotal = CalculateSubTotal(c.Product.RetailPrice, c.Quantity);
-            ItemSubTotal.Add(subTotal);
+            //ItemSubTotal.Add(subTotal);
             totalSubTotal += subTotal;
-            ItemTotal.Add(tax + subTotal);
+            //ItemTotal.Add(tax + subTotal);
             totalTotal += (tax + subTotal);
         }
     }
@@ -140,25 +148,16 @@
 
         return taxAmount;
     }
-
-    private void DecreaseItemQuantity(int index)
+    public void HandleDeleteItem(CartModel cartItem)
     {
-        if (Cart[index].Quantity > 1)
-        {
-            Cart[index].Quantity--;
-        }
-
+        Cart.Remove(cartItem);
+        CalcualteCartItems(Cart);
     }
-    private void IncreaseItemQuantity(int index)
+    public void HandleQuantityChange(CartModel cartItem)
     {
-        if (Cart[index].Quantity < Cart[index].Product.QuantityInStock)
-        {
-            Cart[index].Quantity++;
-        }
-    }
-    private void DeleteItem(int index)
-    {
-        Cart.RemoveAt(index);
+        int index = Cart.IndexOf(cartItem);
+        Cart[index].Quantity = cartItem.Quantity;
+        CalcualteCartItems(Cart);
     }
 
 }
