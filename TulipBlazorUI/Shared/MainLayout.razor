@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject AuthenticationStateProvider authenticationStateProvider
 @inject ILoggedInUserModel loggedInUser
 @inject IAPIHelper apiHelper
 @inject NavigationManager navigationManager
@@ -9,7 +9,7 @@
 </div>
 
 <div class="main">
-    <div class="top-row px-4 fixed-top">
+    @*<div class="top-row px-4 fixed-top">
         <AuthorizeView>
             <Authorized>
                 <a href="/" @onclick="(() => Logout())">Logout</a>
@@ -25,7 +25,7 @@
                 }
             </NotAuthorized>
         </AuthorizeView>
-    </div>
+    </div>*@
     <div class="content px-4">
         @Body
     </div>
@@ -33,7 +33,7 @@
 @code{
     public void Logout()
     {
-        ((CustomAuthenticationStateProvider)AuthenticationStateProvider)
+        ((CustomAuthenticationStateProvider)authenticationStateProvider)
             .MarkUserAsLoggedOut();
         loggedInUser.ResetUserModel();
         apiHelper.LogOffUser();

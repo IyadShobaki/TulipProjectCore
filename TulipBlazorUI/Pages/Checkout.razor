@@ -1,6 +1,7 @@
 ﻿@page "/checkout"
 @inject ISessionStorageService sessionStorage
 @inject IConfigHelper configHelper
+@inject ILoggedInUserModel loggedInUser
 @inject NavigationManager navigationManager
 @*<h3 style="text-align:center; margin-bottom:20px; font-weight:bold"><span>Checkout Page</span></h3>*@
 
@@ -20,7 +21,7 @@
             <div class="card">
 
                 <!--Card content-->
-                <form class="card-body">
+                <EditForm Model="checkoutModel" class="card-body">
 
                     <!--Grid row-->
                     <div class="row">
@@ -30,7 +31,7 @@
 
                             <!--firstName-->
                             <div class="md-form ">
-                                <input type="text" id="firstName" class="form-control">
+                                <input type="text" id="firstName" class="form-control" value="@loggedInUser.FirstName">
                                 <label for="firstName" class="">First name</label>
                             </div>
 
@@ -41,7 +42,7 @@
 
                             <!--lastName-->
                             <div class="md-form">
-                                <input type="text" id="lastName" class="form-control">
+                                <input type="text" id="lastName" class="form-control" value="@loggedInUser.LastName">
                                 <label for="lastName" class="">Last name</label>
                             </div>
 
@@ -51,17 +52,17 @@
                     </div>
                     <!--Grid row-->
                     <!--Username-->
-                    <div class="md-form input-group pl-0 mb-5">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"></span>
-                        </div>
-                        <input type="text" class="form-control py-0" placeholder="Username" aria-describedby="basic-addon1">
-                    </div>
+                    @*<div class="md-form input-group pl-0 mb-5">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"></span>
+                            </div>
+                            <input type="text" class="form-control py-0" placeholder="Username" aria-describedby="basic-addon1">
+                        </div>*@
 
                     <!--email-->
                     <div class="md-form mb-5">
-                        <input type="text" id="email" class="form-control" placeholder="youremail@example.com">
-                        <label for="email" class="">Email (optional)</label>
+                        <input type="text" id="email" class="form-control" placeholder="youremail@example.com" value="@loggedInUser.EmailAddress">
+                        <label for="email" class="">Username</label>
                     </div>
 
                     <!--address-->
@@ -99,7 +100,10 @@
                             <label for="state">State</label>
                             <select class="custom-select d-block w-100" id="state" required>
                                 <option value="">Choose...</option>
-                                <option>California</option>
+                                @foreach (var s in States)
+                                {
+                                    <option>@s</option>
+                                }
                             </select>
                             <div class="invalid-feedback">
                                 Please provide a valid state.
@@ -124,14 +128,14 @@
 
                     <hr>
 
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="same-address">
-                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="save-info">
-                        <label class="custom-control-label" for="save-info">Save this information for next time</label>
-                    </div>
+                    @*<div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="same-address">
+                            <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="save-info">
+                            <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                        </div>*@
 
                     <hr>
 
@@ -183,9 +187,9 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Place Order</button>
+                    <button class="btn btn-primary btn-lg btn-block" @onclick="PlaceOrder">Place Order</button>
 
-                </form>
+                </EditForm>
 
             </div>
             <!--/.Card-->
@@ -211,17 +215,17 @@
                             <small class="text-muted">@c.Product.Description</small>
                         </div>
                         @*<span class="text-muted">@string.Format("{0:C}", c.Product.RetailPrice)</span>*@
-                        <span class="text-muted">@c.Quantity</span>
+                        <span class="text-muted">Qty @c.Quantity</span>
                     </li>
                 }
-                
+
                 @*<li class="list-group-item d-flex justify-content-between bg-light">
-                    <div class="text-success">
-                        <h6 class="my-0">Promo code</h6>
-                        <small>EXAMPLECODE</small>
-                    </div>
-                    <span class="text-success">-$5</span>
-                </li>*@
+                        <div class="text-success">
+                            <h6 class="my-0">Promo code</h6>
+                            <small>EXAMPLECODE</small>
+                        </div>
+                        <span class="text-success">-$5</span>
+                    </li>*@
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (USD)</span>
                     <strong>@string.Format("{0:C}", totalTotal)</strong>
@@ -229,14 +233,14 @@
             </ul>
             <!-- Cart -->
             <!-- Promo code -->
-            <form class="card p-2">
+            <!--<form class="card p-2">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
                     </div>
                 </div>
-            </form>
+            </form>-->
             <!-- Promo code -->
 
         </div>
@@ -249,12 +253,79 @@
 
 
 @code {
+    private CheckoutModel checkoutModel;
     public List<CartModel> Cart { get; set; } = new List<CartModel>();
     private decimal totalTotal;
+    public static List<string> States { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        checkoutModel = new CheckoutModel();
+        AddStates();
+
         Cart = await sessionStorage.GetItemAsync<List<CartModel>>("cart");
         totalTotal = await sessionStorage.GetItemAsync<decimal>("total");
     }
+    private void PlaceOrder()
+    {
+        navigationManager.NavigateTo("/");
+        sessionStorage.RemoveItemAsync("cart");
+        sessionStorage.RemoveItemAsync("total");
+    }
+    private static void AddStates()
+    {
+        States = new List<string>();
+        States.Add("AL");
+        States.Add("AK");
+        States.Add("AZ");
+        States.Add("AR");
+        States.Add("CA");
+        States.Add("CO");
+        States.Add("CT");
+        States.Add("DE");
+        States.Add("DC");
+        States.Add("FL");
+        States.Add("GA");
+        States.Add("HI");
+        States.Add("ID");
+        States.Add("IL");
+        States.Add("IN");
+        States.Add("IA");
+        States.Add("KS");
+        States.Add("KY");
+        States.Add("LA");
+        States.Add("ME");
+        States.Add("MD");
+        States.Add("MA");
+        States.Add("MI");
+        States.Add("MN");
+        States.Add("MS");
+        States.Add("MO");
+        States.Add("MT");
+        States.Add("NE");
+        States.Add("NV");
+        States.Add("NH");
+        States.Add("NJ");
+        States.Add("NM");
+        States.Add("NY");
+        States.Add("NC");
+        States.Add("ND");
+        States.Add("OH");
+        States.Add("OK");
+        States.Add("OR");
+        States.Add("PA");
+        States.Add("RI");
+        States.Add("SC");
+        States.Add("SD");
+        States.Add("TN");
+        States.Add("TX");
+        States.Add("UT");
+        States.Add("VT");
+        States.Add("VA");
+        States.Add("WA");
+        States.Add("WV");
+        States.Add("WI");
+        States.Add("WY");
+    }
 }
+

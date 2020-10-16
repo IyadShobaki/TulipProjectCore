@@ -51,23 +51,17 @@ else
 {
     <div>
         <div class="row">
-            <div class="col-5">
-                <div class="search-box">
-                    <input class="search-text" type="text"
-                           @oninput="OnTextChange"
-                           placeholder="Search Product By Name" />
-                    <i class="fas fa-search fa-lg" style="color:coral"></i>
-                  
-                </div>
-            </div>
-            <div class="col-6">
-
-            </div>
-            <div class="col-1"> 
-                <a href="#" @onclick="ReviewOrderBtn">
-                    <i class="fas fa-shopping-cart fa-2x"></i>
+            <div class="col-12">
+                @*<div class="search-box">*@
+                <input type="text"
+                       @oninput="OnTextChange"
+                       placeholder="Search Product By Name" />
+                <i class="fas fa-search fa-lg"></i>
+                <a href="#" @onclick="ReviewOrderBtn" style="margin-left:20px">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
                     <span class='badge badge-warning' id='lblCartCount'>@Cart.Count</span>
                 </a>
+                @*</div>*@
             </div>
         </div>
         <div class="row" style="margin-top: 40px">
@@ -76,7 +70,6 @@ else
                 <ProductComponent Product="@product" OnAddToCart="HandleAddToCart"
                                   OnRemoveFromCart="HandleRemoveFromCart"
                                   OnAdd="HandleQuantity" />
-
             }
         </div>
     </div>

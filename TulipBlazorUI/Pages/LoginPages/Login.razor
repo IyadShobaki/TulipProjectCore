@@ -9,8 +9,9 @@
 
 <EditForm Model="@user" OnValidSubmit="@ValidateUser">
     <div>
-        <br /><br /><br /><br /><br />
+        <br />
     </div>
+
     <div>
         <h3 style="font-weight:bold; color:purple">Tulip Store Login</h3>
     </div>
@@ -26,22 +27,23 @@
     </div>
     <br />
     <div class="col-12 row">
-        <span class="col-12"></span>
+        @*<span class="col-12"></span>*@
         <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
         @*<a href="/signup" class="col-3">Sign up</a>*@
         @if (navigationManager.Uri == "https://localhost:44314/login/1")
         {
-            <a href="/signup/1" class="col-3">Sign up</a>
+            <a href="/signup/1" class="col-6">Sign up</a>
         }
         else
         {
-            <a href="/signup" class="col-3">Sign up</a>
+            <a href="/signup" class="col-6">Sign up</a>
         }
     </div>
     <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">
         <span class="col-12">@LoginMessage</span>
     </div>
+
 </EditForm>
 
 

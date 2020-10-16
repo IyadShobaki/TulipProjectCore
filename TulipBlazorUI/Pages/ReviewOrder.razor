@@ -126,10 +126,19 @@
 
         return taxAmount;
     }
-    public void HandleDeleteItem(CartModel cartItem)
+    public async void HandleDeleteItem(CartModel cartItem)
     {
         Cart.Remove(cartItem);
-        CalcualteCartItems(Cart);
+        if (Cart.Count == 0)
+        {
+            await sessionStorage.SetItemAsync("cart", Cart);
+            await sessionStorage.SetItemAsync("total", totalTotal);
+        }
+        else
+        {
+
+            CalcualteCartItems(Cart);
+        }
     }
     public void HandleQuantityChange(CartModel cartItem)
     {

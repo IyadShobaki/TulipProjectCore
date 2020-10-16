@@ -300,3 +300,11 @@ app {
     vertical-align: top;
     margin-left: -10px;
 }
+
+/*Login Iyad*/
+.login {
+    margin-top:20px;
+    border-top: groove;
+    text-align: center;
+    width:500px;
+}
