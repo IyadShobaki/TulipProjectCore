@@ -21,7 +21,7 @@
             <div class="card">
 
                 <!--Card content-->
-                <EditForm Model="checkoutModel" class="card-body">
+                <EditForm Model="checkoutModel" class="card-body" OnValidSubmit="PlaceOrder">
 
                     <!--Grid row-->
                     <div class="row">
@@ -187,7 +187,7 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" @onclick="PlaceOrder">Place Order</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" >Place Order</button>
 
                 </EditForm>
 
@@ -268,7 +268,7 @@
     }
     private void PlaceOrder()
     {
-        navigationManager.NavigateTo("/");
+        navigationManager.NavigateTo("/confirmation");
         sessionStorage.RemoveItemAsync("cart");
         sessionStorage.RemoveItemAsync("total");
     }

@@ -33,7 +33,6 @@ namespace TulipBlazorUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<ILoggedInUserModel, LoggedInUserModel>();
             services.AddSingleton<IAPIHelper, APIHelper>();
             services.AddSingleton<IConfigHelper, ConfigHelper>();

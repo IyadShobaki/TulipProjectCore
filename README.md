@@ -15,4 +15,6 @@ Tulip Clothing Store (.NET CORE) – SQL database, web API to retrieve and send 
 
 ![Tulip Gif3](https://github.com/IyadShobaki/TulipProjectCore/blob/master/GifFiles/tulip6.gif)
 
+![Tulip Gif3](https://github.com/IyadShobaki/TulipProjectCore/blob/master/GifFiles/tulip7.gif)
+
 -- More Coming soon...
