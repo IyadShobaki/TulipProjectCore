@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
-using TulipWpfUI.Library.Helpers;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
@@ -19,20 +19,18 @@ namespace TulipWpfUI.ViewModels
         private readonly IProductEndPoint _productEndPoint;
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _loggedInUserModel;
-        private readonly IConfigHelper _configHelper;
-        private readonly IAPIHelper _apiHelper;
         private readonly ReviewOrderViewModel _reviewOrderViewModel;
+        private readonly IConfiguration _config;
 
         public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
-            ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper,
-            IAPIHelper apiHelper, ReviewOrderViewModel reviewOrderViewModel)
+            ILoggedInUserModel loggedInUserModel, ReviewOrderViewModel reviewOrderViewModel,
+            IConfiguration config)
         {
             _productEndPoint = productEndPoint;
             _events = events;
             _loggedInUserModel = loggedInUserModel;
-            _configHelper = configHelper;
-            _apiHelper = apiHelper;
             _reviewOrderViewModel = reviewOrderViewModel;
+            _config = config;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -57,7 +55,7 @@ namespace TulipWpfUI.ViewModels
         private ProductViewModel CreateProductViewModel(ProductModel product)
         {
 
-            var productViewModel = new ProductViewModel(product, _configHelper);
+            var productViewModel = new ProductViewModel(product, _config);
             productViewModel.AddTCart += OnProductAdd;
             productViewModel.RemoveFCart += OnProductRemove;
             return productViewModel;

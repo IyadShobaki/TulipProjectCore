@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
-using TulipWpfUI.Library.Helpers;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
@@ -22,12 +21,11 @@ namespace TulipWpfUI.ViewModels
         private readonly IOrderEndPoint _orderEndPoint;
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
-        private readonly IConfigHelper _configHelper;
 
         public ReviewOrderViewModel(IProductEndPoint productEndPoint,
             IEventAggregator events, ILoggedInUserModel loggedInUserModel,
             IOrderEndPoint orderEndPoint, StatusInfoViewModel status,
-            IWindowManager window, IConfigHelper configHelper)
+            IWindowManager window)
         {
             _productEndPoint = productEndPoint;
             _events = events;
@@ -35,7 +33,6 @@ namespace TulipWpfUI.ViewModels
             _orderEndPoint = orderEndPoint;
             _status = status;
             _window = window;
-            _configHelper = configHelper;
         }
         public static BindingList<ProductViewModel> CartCopy;
 

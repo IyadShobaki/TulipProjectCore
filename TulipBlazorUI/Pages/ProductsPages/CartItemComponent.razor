@@ -1,4 +1,4 @@
-﻿@inject IConfigHelper configHelper
+﻿@inject IConfiguration config
 
 <tr>
     <td>
@@ -11,8 +11,8 @@
     <td>@string.Format("{0:C}", itemTax)</td>
     <td>@string.Format("{0:C}", itemTotal)</td>
     <td>
-        <button class="oi oi-minus btn btn-primary btn-sm" @onclick="DecreaseQuantity"/> | 
-        <button class="oi oi-plus btn btn-primary btn-sm" @onclick="IncreaseQuantity"/>  | 
+        <button class="oi oi-minus btn btn-primary btn-sm" @onclick="DecreaseQuantity" /> |
+        <button class="oi oi-plus btn btn-primary btn-sm" @onclick="IncreaseQuantity" />  |
         <button class="oi oi-x btn btn-danger btn-sm" @onclick="DeleteItem" />
     </td>
 
@@ -45,7 +45,7 @@
     private decimal CalculateTax(decimal itemRetailPrice, int quantityPurchased)
     {
 
-        decimal taxRate = configHelper.GetTaxRate() / 100;
+        decimal taxRate = config.GetValue<decimal>("taxRate") / 100;
 
         decimal taxAmount = itemRetailPrice * quantityPurchased * taxRate;
 

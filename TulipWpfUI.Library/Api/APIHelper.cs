@@ -21,8 +21,8 @@ namespace TulipWpfUI.Library.Api
         public APIHelper(ILoggedInUserModel loggedInUser, IConfiguration config)
         {
             _config = config;
-            InitializeClient();
             _loggedInUser = loggedInUser;
+            InitializeClient();
 
         }
 
@@ -36,16 +36,20 @@ namespace TulipWpfUI.Library.Api
 
         private void InitializeClient()
         {
-            //string api = _config.GetValue<string>("api");
-            string api = ConfigurationManager.AppSettings["api"]; // This is if WPF the UI
-            if (api == null)
+            // After we add appsettings.json to WPF project
+            string api = _config.GetValue<string>("api");
+            //string api = ConfigurationManager.AppSettings["api"]; // This is if WPF the UI
+            // before we add appsettings.json to WPF project
+            //if (api == null)
+            //{
+            //    api = _config.GetValue<string>("api"); // This is if Blazor the UI
+            //}
+
+
+            _apiClient = new HttpClient
             {
-                api = _config.GetValue<string>("api"); // This is if Blazor the UI
-            }
-
-
-            _apiClient = new HttpClient();
-            _apiClient.BaseAddress = new Uri(api);
+                BaseAddress = new Uri(api)
+            };
             _apiClient.DefaultRequestHeaders.Accept.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

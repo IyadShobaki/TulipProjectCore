@@ -1,23 +1,24 @@
 ﻿using Caliburn.Micro;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TulipWpfUI.Library.Helpers;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
 {
     public class ProductViewModel : Screen
     {
-        private ProductModel _product;
-        private readonly IConfigHelper _configHelper;
+        private readonly ProductModel _product;
+        private readonly IConfiguration _config;
 
-        public ProductViewModel(ProductModel product, IConfigHelper configHelper)
+        public ProductViewModel(ProductModel product, 
+            IConfiguration config)
         {
             _product = product;
-            _configHelper = configHelper;
+            _config = config;
         }
 
         public int Id => _product.Id;
@@ -96,7 +97,8 @@ namespace TulipWpfUI.ViewModels
         private decimal CalculateTax()
         {
 
-            decimal taxRate = _configHelper.GetTaxRate() / 100;
+            //decimal taxRate = _configHelper.GetTaxRate() / 100;
+            decimal taxRate = _config.GetValue<decimal>("taxRate") / 100;
 
             decimal taxAmount = RetailPrice * ItemQuantity * taxRate;
 

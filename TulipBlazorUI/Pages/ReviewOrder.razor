@@ -1,6 +1,6 @@
 ﻿@page "/revieworder"
 @inject ISessionStorageService sessionStorage
-@inject IConfigHelper configHelper
+@inject IConfiguration config
 @inject ILoggedInUserModel loggedInUser
 @inject NavigationManager navigationManager
 
@@ -119,8 +119,8 @@
 
     private decimal CalculateTax(decimal itemRetailPrice, int quantityPurchased)
     {
-
-        decimal taxRate = configHelper.GetTaxRate() / 100;
+       
+        decimal taxRate = config.GetValue<decimal>("taxRate") / 100;
 
         decimal taxAmount = itemRetailPrice * quantityPurchased * taxRate;
 
